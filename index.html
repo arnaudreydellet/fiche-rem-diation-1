@@ -54,6 +54,16 @@
       100% { box-shadow: 0 0 0px 0px rgba(10, 110, 63, 0.0); }
     }
 
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to   { opacity: 0; }
+    }
+
     /* ─────────────────────────────────────────
        LAYOUT
     ───────────────────────────────────────── */
@@ -82,23 +92,6 @@
     /* ─────────────────────────────────────────
        BANDEAU HEADER
     ───────────────────────────────────────── */
-    .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 28px;
-      background: rgba(255, 255, 255, 0.55);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.7);
-      animation: fadeUp 0.6s cubic-bezier(.22, 1, .36, 1) both;
-    }
-
     .header {
       position: fixed;
       top: 0;
@@ -136,6 +129,21 @@
     }
 
     /* ─────────────────────────────────────────
+       ÉCRANS
+    ───────────────────────────────────────── */
+    .ecran {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      transition: opacity 0.5s ease;
+    }
+
+    .ecran.cache {
+      display: none;
+    }
+
+    /* ─────────────────────────────────────────
        CARTE CENTRALE
     ───────────────────────────────────────── */
     .carte {
@@ -149,16 +157,12 @@
       flex-direction: column;
       align-items: center;
       gap: 14px;
-      animation: fadeUp 0.8s cubic-bezier(.22, 1, .36, 1) both;
       max-width: 480px;
       width: 90%;
     }
 
-    .centre {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
+    .carte.anime {
+      animation: fadeUp 0.8s cubic-bezier(.22, 1, .36, 1) both;
     }
 
     /* Badge */
@@ -186,8 +190,23 @@
       color: var(--texte-vert);
     }
 
-    /* Bouton */
-    .btn-commencer {
+    /* Texte intro */
+    .texte-intro {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--texte-fonce);
+      text-align: center;
+      line-height: 1.6;
+      max-width: 340px;
+    }
+
+    .texte-intro strong {
+      color: var(--vert-bord);
+      font-weight: 700;
+    }
+
+    /* Boutons */
+    .btn {
       margin-top: 22px;
       padding: 15px 54px;
       border-radius: 999px;
@@ -202,14 +221,193 @@
       transition: background 0.2s, color 0.2s, transform 0.15s;
     }
 
-    .btn-commencer:hover {
+    .btn:hover {
       background: var(--vert-bord);
       color: #ffffff;
       transform: scale(1.05);
     }
 
-    .btn-commencer:active {
+    .btn:active {
       transform: scale(0.97);
+    }
+
+    /* ─────────────────────────────────────────
+       ÉCRAN QUIZ
+    ───────────────────────────────────────── */
+    .quiz-carte {
+      background: rgba(255, 255, 255, 0.62);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: 28px;
+      padding: 40px 48px 44px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      max-width: 560px;
+      width: 92%;
+    }
+
+    /* Barre de progression */
+    .prog-wrap { width: 100%; }
+    .prog-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--vert-bord);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .prog-track {
+      width: 100%;
+      height: 6px;
+      background: rgba(10,110,63,0.12);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%;
+      background: var(--vert-fort);
+      border-radius: 999px;
+      transition: width 0.5s cubic-bezier(.22,1,.36,1);
+      width: 0%;
+    }
+
+    /* Consigne */
+    .consigne {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--texte-fonce);
+      text-align: center;
+      line-height: 1.4;
+    }
+    .consigne .mot-cle {
+      color: var(--vert-bord);
+      font-weight: 700;
+    }
+
+    /* Fraction grande */
+    .fraction-grande {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      margin: 8px 0;
+    }
+    .frac-nombre {
+      font-size: 64px;
+      font-weight: 700;
+      color: var(--texte-fonce);
+      line-height: 1;
+      cursor: pointer;
+      padding: 10px 24px;
+      border-radius: 16px;
+      border: 2.5px solid transparent;
+      background: rgba(255,255,255,0.5);
+      transition: background 0.18s, border-color 0.18s, transform 0.15s;
+    }
+    .frac-nombre:hover {
+      background: rgba(16,140,90,0.1);
+      border-color: var(--vert-fort);
+      transform: scale(1.06);
+    }
+    .frac-barre {
+      width: 100px;
+      height: 4px;
+      background: var(--texte-fonce);
+      border-radius: 2px;
+    }
+
+    /* Choix multiples */
+    .choix-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      width: 100%;
+    }
+    .choix-btn {
+      padding: 14px 28px;
+      border-radius: 16px;
+      border: 2px solid rgba(10,110,63,0.25);
+      background: rgba(255,255,255,0.6);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--texte-fonce);
+      cursor: pointer;
+      transition: background 0.18s, border-color 0.18s, transform 0.15s;
+      min-width: 120px;
+      text-align: center;
+    }
+    .choix-btn:hover {
+      background: rgba(16,140,90,0.1);
+      border-color: var(--vert-fort);
+      transform: scale(1.04);
+    }
+
+    /* Deux fractions côte à côte */
+    .fractions-comparaison {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .frac-bloc {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      padding: 16px 24px;
+      border-radius: 20px;
+      border: 2.5px solid transparent;
+      background: rgba(255,255,255,0.5);
+      transition: background 0.18s, border-color 0.18s, transform 0.15s;
+    }
+    .frac-bloc:hover {
+      background: rgba(16,140,90,0.1);
+      border-color: var(--vert-fort);
+      transform: scale(1.06);
+    }
+    .frac-bloc .frac-num,
+    .frac-bloc .frac-den {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--texte-fonce);
+      line-height: 1;
+    }
+    .frac-bloc .frac-barre {
+      width: 70px;
+      height: 3px;
+      background: var(--texte-fonce);
+      border-radius: 2px;
+    }
+
+    /* Feedback */
+    .feedback {
+      font-size: 15px;
+      font-weight: 700;
+      padding: 10px 24px;
+      border-radius: 999px;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .feedback.correct {
+      background: rgba(16,140,90,0.15);
+      color: var(--vert-bord);
+      opacity: 1;
+    }
+    .feedback.faux {
+      background: rgba(200,50,50,0.12);
+      color: #a83232;
+      opacity: 1;
     }
   </style>
 </head>
@@ -226,28 +424,68 @@
     </div>
   </div>
 
-  <div class="centre">
-    <div class="carte">
-
+  <!-- ÉCRAN 1 : ACCUEIL -->
+  <div class="ecran" id="ecran-accueil">
+    <div class="carte anime">
       <!-- ① Modifier le numéro de fiche ici -->
       <div class="badge">Fiche remédiation · 1</div>
-
       <!-- ② Modifier le titre ici -->
       <div class="titre">
         Comprendre les<br>
         <span class="accent">fractions</span>
       </div>
-
       <!-- ③ Le bouton — ne pas modifier -->
-      <button class="btn-commencer" onclick="commencer()">Commencer</button>
+      <button class="btn" onclick="versIntro()">Commencer</button>
+    </div>
+  </div>
 
+  <!-- ÉCRAN 2 : INTRO QUIZ -->
+  <div class="ecran cache" id="ecran-intro">
+    <div class="carte">
+      <div class="badge">Fiche remédiation · 1</div>
+      <div class="texte-intro">
+        Vérifions que tu maîtrises bien<br>
+        cette notion en passant<br>
+        <strong>ce petit quiz</strong> 👇
+      </div>
+      <button class="btn" onclick="versQuiz()">Compris !</button>
+    </div>
+  </div>
+
+  <!-- ÉCRAN 3 : QUIZ -->
+  <div class="ecran cache" id="ecran-quiz">
+    <div class="quiz-carte">
+      <div class="prog-wrap">
+        <div class="prog-label" id="prog-label">Point 1 / 6</div>
+        <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+      </div>
+      <div class="consigne" id="consigne"></div>
+      <div id="zone-question"></div>
+      <div class="feedback" id="feedback"></div>
+    </div>
+  </div>
+
+  <!-- ÉCRAN 4A : FIN — VALIDÉ (+90%) -->
+  <div class="ecran cache" id="ecran-valide">
+    <div class="carte anime">
+      <div class="badge" style="background:rgba(16,140,90,0.15);color:#0a6e3f;">Notion validée ✓</div>
+      <div class="titre">Bravo <span class="accent" id="prenom-valide"></span> ! 🎉</div>
+      <div class="texte-intro">Tu maîtrises déjà cette notion.<br>Pas besoin de remédiation ici !</div>
+    </div>
+  </div>
+
+  <!-- ÉCRAN 4B : FIN — REMÉDIATION (-90%) -->
+  <div class="ecran cache" id="ecran-remediation">
+    <div class="carte anime">
+      <div class="badge" style="background:rgba(200,100,50,0.12);color:#a85a20;">Quiz terminé</div>
+      <div class="titre">On va travailler<br>ça <span class="accent" id="prenom-remed"></span> 💪</div>
+      <div class="texte-intro" id="score-texte"></div>
+      <button class="btn" onclick="commencerFiche()">Commencer la fiche</button>
     </div>
   </div>
 
   <script>
-    // ── Lecture des paramètres URL ──────────────────────────────
-    // Exemple de lien généré par Google Apps Script :
-    // fiche1.html?nom=Arnaud%20Dupont&classe=TMA&lycee=Fourneyron
+    // ── Paramètres URL ──────────────────────────────────────────
     const params = new URLSearchParams(window.location.search);
     const nom    = params.get('nom')    || 'Élève';
     const classe = params.get('classe') || '—';
@@ -256,11 +494,146 @@
     document.getElementById('header-lycee').textContent  = lycee;
     document.getElementById('header-classe').textContent = classe;
     document.getElementById('header-nom').textContent    = nom;
+    document.getElementById('prenom-valide').textContent = nom.split(' ')[0];
+    document.getElementById('prenom-remed').textContent  = nom.split(' ')[0];
 
-    // ── Transition vers l'écran question ───────────────────────
-    function commencer() {
-      // À compléter lors de l'intégration de l'écran question
-      console.log('Commencer cliqué — transition à implémenter');
+    // ── Questions ───────────────────────────────────────────────
+    const QUESTIONS = [
+      // Point 1 — Numérateur / dénominateur
+      { point:1, type:'fraction-clic', consigne:'Clique sur le <span class="mot-cle">numérateur</span>', num:3, den:4, cible:'num' },
+      { point:1, type:'fraction-clic', consigne:'Clique sur le <span class="mot-cle">dénominateur</span>', num:7, den:9, cible:'den' },
+      // Point 2 — Fraction = quotient
+      { point:2, type:'choix', consigne:'La barre de fraction signifie :', choix:['÷','×','+','−'], bonne:'÷' },
+      { point:2, type:'choix', consigne:'<span class="mot-cle">5/7</span> c\'est la même chose que :', choix:['5÷7','7÷5','5×7','5+7'], bonne:'5÷7' },
+      // Point 3 — Comparer même dénominateur
+      { point:3, type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:3,den:7},{num:5,den:7}], bonne:1 },
+      { point:3, type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:8,den:11},{num:4,den:11}], bonne:0 },
+      // Point 4 — Comparer même numérateur
+      { point:4, type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:3,den:4},{num:3,den:7}], bonne:0 },
+      { point:4, type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:5,den:3},{num:5,den:8}], bonne:0 },
+      // Point 5 — Comparer à 1 et 1/2
+      { point:5, type:'choix', consigne:'La fraction <span class="mot-cle">7/5</span> est :', choix:['> 1','< 1','= 1'], bonne:'> 1' },
+      { point:5, type:'choix', consigne:'La fraction <span class="mot-cle">3/8</span> est :', choix:['> 1/2','< 1/2','= 1/2'], bonne:'< 1/2' },
+      // Point 6 — Fraction d'un nombre
+      { point:6, type:'choix', consigne:'"2/5 <span class="mot-cle">de</span> 60" ça veut dire :', choix:['2/5 × 60','2/5 ÷ 60','2/5 + 60','2/5 − 60'], bonne:'2/5 × 60' },
+      { point:6, type:'choix', consigne:'1/2 <span class="mot-cle">de</span> 30 = ?', choix:['15','60','30','10'], bonne:'15' },
+    ];
+
+    const TOTAL  = 6;
+    let qIndex      = 0;
+    let bloque      = false;
+    let bonnesRep   = 0;
+
+    // ── Fondu entre écrans ──────────────────────────────────────
+    function allerVers(idDepart, idArrivee) {
+      const depart  = document.getElementById(idDepart);
+      const arrivee = document.getElementById(idArrivee);
+      depart.style.transition = 'opacity 0.5s ease';
+      depart.style.opacity    = '0';
+      setTimeout(() => {
+        depart.classList.add('cache');
+        depart.style.opacity     = '1';
+        arrivee.classList.remove('cache');
+        arrivee.style.opacity    = '0';
+        arrivee.style.transition = 'opacity 0.5s ease';
+        setTimeout(() => { arrivee.style.opacity = '1'; }, 20);
+      }, 500);
+    }
+
+    function versIntro() { allerVers('ecran-accueil', 'ecran-intro'); }
+    function versQuiz()  { allerVers('ecran-intro', 'ecran-quiz'); setTimeout(() => chargerQuestion(0), 600); }
+
+    function versFin() {
+      const score = Math.round((bonnesRep / QUESTIONS.length) * 100);
+      if (score >= 90) {
+        allerVers('ecran-quiz', 'ecran-valide');
+      } else {
+        document.getElementById('score-texte').innerHTML =
+          'Tu as eu <strong>' + bonnesRep + ' / ' + QUESTIONS.length + ' bonnes réponses</strong>.<br>La fiche va t\'aider à consolider cette notion.';
+        allerVers('ecran-quiz', 'ecran-remediation');
+      }
+    }
+
+    function commencerFiche() {
+      // À brancher sur la fiche de remédiation
+      alert('La fiche de remédiation sera intégrée ici.');
+    }
+
+    // ── Charger une question ────────────────────────────────────
+    function chargerQuestion(i) {
+      bloque = false;
+      const q   = QUESTIONS[i];
+      const pct = ((q.point - 1) / TOTAL) * 100;
+
+      document.getElementById('prog-label').textContent = 'Point ' + q.point + ' / ' + TOTAL;
+      document.getElementById('prog-fill').style.width  = pct + '%';
+      document.getElementById('consigne').innerHTML     = q.consigne;
+      document.getElementById('feedback').className     = 'feedback';
+      document.getElementById('feedback').textContent   = '';
+
+      const zone = document.getElementById('zone-question');
+
+      if (q.type === 'fraction-clic') {
+        zone.innerHTML = `
+          <div class="fraction-grande">
+            <div class="frac-nombre" onclick="repondre('num')">${q.num}</div>
+            <div class="frac-barre"></div>
+            <div class="frac-nombre" onclick="repondre('den')">${q.den}</div>
+          </div>`;
+      } else if (q.type === 'choix') {
+        zone.innerHTML = '<div class="choix-wrap">' +
+          q.choix.map(c => `<button class="choix-btn" onclick="repondre('${c}')">${c}</button>`).join('') +
+          '</div>';
+      } else if (q.type === 'comparaison') {
+        zone.innerHTML = '<div class="fractions-comparaison">' +
+          q.fractions.map((f, idx) => `
+            <div class="frac-bloc" onclick="repondre(${idx})">
+              <div class="frac-num">${f.num}</div>
+              <div class="frac-barre"></div>
+              <div class="frac-den">${f.den}</div>
+            </div>`).join('') +
+          '</div>';
+      }
+    }
+
+    // ── Traiter une réponse ─────────────────────────────────────
+    function repondre(choix) {
+      if (bloque) return;
+      bloque = true;
+      const q  = QUESTIONS[qIndex];
+      const fb = document.getElementById('feedback');
+      let correct;
+
+      if (q.type === 'fraction-clic')   correct = choix === q.cible;
+      else if (q.type === 'choix')      correct = choix === q.bonne;
+      else if (q.type === 'comparaison') correct = Number(choix) === q.bonne;
+
+      if (correct) {
+        bonnesRep++;
+        fb.textContent = '✓ Bonne réponse !';
+        fb.className   = 'feedback correct';
+        setTimeout(suite, 650);
+      } else {
+        fb.textContent = '✗ Pas tout à fait, continue !';
+        fb.className   = 'feedback faux';
+        setTimeout(suite, 1100);
+      }
+    }
+
+    // ── Question suivante ou fin ────────────────────────────────
+    function suite() {
+      qIndex++;
+      if (qIndex >= QUESTIONS.length) {
+        versFin();
+      } else {
+        const zone = document.getElementById('zone-question');
+        zone.style.opacity    = '0';
+        zone.style.transition = 'opacity 0.3s';
+        setTimeout(() => {
+          chargerQuestion(qIndex);
+          zone.style.opacity = '1';
+        }, 300);
+      }
     }
   </script>
 
