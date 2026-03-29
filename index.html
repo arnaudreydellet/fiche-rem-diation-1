@@ -80,14 +80,85 @@
     }
 
     /* ─────────────────────────────────────────
-       CONTENU CENTRAL
+       BANDEAU HEADER
     ───────────────────────────────────────── */
-    .centre {
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 28px;
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+      animation: fadeUp 0.6s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 28px;
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+      animation: fadeUp 0.6s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    .header-ligne {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--texte-fonce);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-sep {
+      color: var(--vert-fort);
+      font-weight: 700;
+    }
+
+    .header-nom {
+      font-weight: 700;
+      color: var(--vert-bord);
+    }
+
+    /* ─────────────────────────────────────────
+       CARTE CENTRALE
+    ───────────────────────────────────────── */
+    .carte {
+      background: rgba(255, 255, 255, 0.62);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: 28px;
+      padding: 56px 64px 52px;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 14px;
       animation: fadeUp 0.8s cubic-bezier(.22, 1, .36, 1) both;
+      max-width: 480px;
+      width: 90%;
+    }
+
+    .centre {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
     }
 
     /* Badge */
@@ -144,25 +215,50 @@
 </head>
 <body>
 
-  <div class="centre">
-
-    <!-- ① Modifier le numéro de fiche ici -->
-    <div class="badge">Fiche remédiation · 1</div>
-
-    <!-- ② Modifier le titre ici -->
-    <div class="titre">
-      Comprendre les<br>
-      <span class="accent">fractions</span>
+  <!-- BANDEAU HEADER — rempli automatiquement depuis l'URL -->
+  <div class="header">
+    <div class="header-ligne">
+      <span id="header-lycee">—</span>
+      <span class="header-sep">·</span>
+      <span id="header-classe">—</span>
+      <span class="header-sep">·</span>
+      <span class="header-nom" id="header-nom">—</span>
     </div>
+  </div>
 
-    <!-- ③ Le bouton — ne pas modifier -->
-    <button class="btn-commencer" onclick="commencer()">Commencer</button>
+  <div class="centre">
+    <div class="carte">
 
+      <!-- ① Modifier le numéro de fiche ici -->
+      <div class="badge">Fiche remédiation · 1</div>
+
+      <!-- ② Modifier le titre ici -->
+      <div class="titre">
+        Comprendre les<br>
+        <span class="accent">fractions</span>
+      </div>
+
+      <!-- ③ Le bouton — ne pas modifier -->
+      <button class="btn-commencer" onclick="commencer()">Commencer</button>
+
+    </div>
   </div>
 
   <script>
+    // ── Lecture des paramètres URL ──────────────────────────────
+    // Exemple de lien généré par Google Apps Script :
+    // fiche1.html?nom=Arnaud%20Dupont&classe=TMA&lycee=Fourneyron
+    const params = new URLSearchParams(window.location.search);
+    const nom    = params.get('nom')    || 'Élève';
+    const classe = params.get('classe') || '—';
+    const lycee  = params.get('lycee')  || '—';
+
+    document.getElementById('header-lycee').textContent  = lycee;
+    document.getElementById('header-classe').textContent = classe;
+    document.getElementById('header-nom').textContent    = nom;
+
+    // ── Transition vers l'écran question ───────────────────────
     function commencer() {
-      // Point d'entrée : déclencher la transition vers le premier point
       // À compléter lors de l'intégration de l'écran question
       console.log('Commencer cliqué — transition à implémenter');
     }
