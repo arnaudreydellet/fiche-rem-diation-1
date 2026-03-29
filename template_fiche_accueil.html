@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fiche remédiation · 1 — Comprendre les fractions</title>
+  <style>
+    /* ─────────────────────────────────────────
+       RESET
+    ───────────────────────────────────────── */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ─────────────────────────────────────────
+       VARIABLES — modifier ici pour chaque fiche
+       FICHE_NUM    : numéro de la fiche (ex: 1)
+       FICHE_TITRE  : titre affiché (ex: Comprendre les)
+       FICHE_ACCENT : mot mis en couleur (ex: fractions)
+    ───────────────────────────────────────── */
+    :root {
+      --vert-fort:    #108c5a;
+      --vert-bord:    #0a6e3f;
+      --vert-pale:    #edf7f2;
+      --vert-clair:   #c8edd9;
+      --vert-moyen:   #a8dfc4;
+      --vert-doux:    #d4f0e2;
+      --texte-fonce:  #0d2b1f;
+      --texte-vert:   #108c5a;
+      --badge-bg:     rgba(10, 110, 63, 0.13);
+      --badge-texte:  #0a6e3f;
+    }
+
+    /* ─────────────────────────────────────────
+       ANIMATIONS
+    ───────────────────────────────────────── */
+    @keyframes gradientWave {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes btnGlow {
+      0%   { box-shadow: 0 0 0px 0px rgba(10, 110, 63, 0.0); }
+      50%  { box-shadow: 0 0 0px 10px rgba(10, 110, 63, 0.15),
+                         0 0 0px 22px rgba(10, 110, 63, 0.07); }
+      100% { box-shadow: 0 0 0px 0px rgba(10, 110, 63, 0.0); }
+    }
+
+    /* ─────────────────────────────────────────
+       LAYOUT
+    ───────────────────────────────────────── */
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(
+        135deg,
+        var(--vert-clair),
+        var(--vert-pale),
+        var(--vert-moyen),
+        var(--vert-pale),
+        var(--vert-doux)
+      );
+      background-size: 400% 400%;
+      animation: gradientWave 8s ease infinite;
+      font-family: Arial, sans-serif;
+    }
+
+    /* ─────────────────────────────────────────
+       CONTENU CENTRAL
+    ───────────────────────────────────────── */
+    .centre {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      animation: fadeUp 0.8s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    /* Badge */
+    .badge {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--badge-texte);
+      background: var(--badge-bg);
+      padding: 5px 18px;
+      border-radius: 999px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    /* Titre */
+    .titre {
+      font-size: clamp(26px, 5vw, 34px);
+      font-weight: 500;
+      color: var(--texte-fonce);
+      text-align: center;
+      line-height: 1.25;
+    }
+
+    .titre .accent {
+      color: var(--texte-vert);
+    }
+
+    /* Bouton */
+    .btn-commencer {
+      margin-top: 22px;
+      padding: 15px 54px;
+      border-radius: 999px;
+      border: 2.5px solid var(--vert-bord);
+      background: transparent;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      color: var(--vert-bord);
+      animation: btnGlow 2.2s ease-in-out infinite;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+    }
+
+    .btn-commencer:hover {
+      background: var(--vert-bord);
+      color: #ffffff;
+      transform: scale(1.05);
+    }
+
+    .btn-commencer:active {
+      transform: scale(0.97);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="centre">
+
+    <!-- ① Modifier le numéro de fiche ici -->
+    <div class="badge">Fiche remédiation · 1</div>
+
+    <!-- ② Modifier le titre ici -->
+    <div class="titre">
+      Comprendre les<br>
+      <span class="accent">fractions</span>
+    </div>
+
+    <!-- ③ Le bouton — ne pas modifier -->
+    <button class="btn-commencer" onclick="commencer()">Commencer</button>
+
+  </div>
+
+  <script>
+    function commencer() {
+      // Point d'entrée : déclencher la transition vers le premier point
+      // À compléter lors de l'intégration de l'écran question
+      console.log('Commencer cliqué — transition à implémenter');
+    }
+  </script>
+
+</body>
+</html>
