@@ -181,9 +181,35 @@
     .remed-prog-track { width: 100%; height: 6px; background: rgba(180,100,20,0.12); border-radius: 999px; overflow: hidden; }
     .remed-prog-fill  { height: 100%; background: #d4820a; border-radius: 999px; transition: width 0.6s cubic-bezier(.22,1,.36,1); width: 0%; }
 
-    .regle-bloc { width: 100%; background: rgba(212,130,10,0.08); border-left: 4px solid #d4820a; border-radius: 0 12px 12px 0; padding: 16px 20px; margin-bottom: 28px; }
+    @keyframes regleFadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .regle-bloc {
+      width: 100%; background: rgba(212,130,10,0.08);
+      border-left: 4px solid #d4820a;
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px; margin-bottom: 0;
+      animation: regleFadeIn 0.6s cubic-bezier(.22,1,.36,1) both;
+    }
     .regle-label { font-size: 10px; font-weight: 700; color: #b06a20; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
-    .regle-texte { font-size: 15px; font-weight: 500; color: #3d2000; line-height: 1.5; }
+    .regle-texte { font-size: 15px; font-weight: 500; color: #3d2000; line-height: 1.6; }
+
+    .btn-compris-wrap {
+      width: 100%; display: flex; justify-content: center;
+      margin: 20px 0 28px;
+      animation: regleFadeIn 0.6s 0.3s cubic-bezier(.22,1,.36,1) both;
+    }
+    .btn-compris {
+      padding: 12px 44px; border-radius: 999px;
+      border: 2.5px solid #d4820a; background: transparent;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      letter-spacing: 0.04em; color: #d4820a;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+    }
+    .btn-compris:hover { background: #d4820a; color: #fff; transform: scale(1.04); }
+    .btn-compris:active { transform: scale(0.97); }
 
     .remed-exercices {
       width: 100%; display: flex; flex-direction: column; align-items: center; gap: 20px;
@@ -275,6 +301,9 @@
         <div class="regle-label">La règle</div>
         <div class="regle-texte" id="regle-texte"></div>
       </div>
+      <div class="btn-compris-wrap" id="btn-compris-wrap">
+        <button class="btn-compris" onclick="afficherExercices()">Compris !</button>
+      </div>
       <div class="remed-exercices" id="remed-exercices">
         <div class="remed-consigne" id="remed-consigne"></div>
         <div id="remed-zone"></div>
@@ -327,7 +356,8 @@
     const POINTS = [
       {
         num: 1,
-        regle: 'Le numérateur est le nombre en haut. Le dénominateur est le nombre en bas.',
+        regleHTML: true,
+        regleContenu: 'Le <strong style="color:#d4820a;">numérateur</strong> est le nombre <strong>en haut</strong>. Le <strong style="color:#d4820a;">dénominateur</strong> est le nombre <strong>en bas</strong>.',
         exercices: [
           { type:'fraction-clic', consigne:'Clique sur le <span class="mot-cle">numérateur</span>', num:3, den:4, cible:'num' },
           { type:'fraction-clic', consigne:'Clique sur le <span class="mot-cle">dénominateur</span>', num:11, den:3, cible:'den' },
@@ -338,7 +368,8 @@
       },
       {
         num: 2,
-        regle: 'La barre de fraction signifie divisé. a/b = a ÷ b',
+        regleHTML: true,
+        regleContenu: 'La barre de fraction signifie <strong style="color:#d4820a;">divisé</strong>. Ainsi <strong>a/b = a ÷ b</strong> — la barre remplace le signe ÷.',
         exercices: [
           { type:'choix', consigne:'La barre de fraction signifie :', choix:['÷','×','+','−'], bonne:'÷' },
           { type:'choix', consigne:`${fi(5,7,true)} c'est la même chose que :`, choix:['5÷7','7÷5','5×7','5+7'], bonne:'5÷7' },
@@ -349,7 +380,8 @@
       },
       {
         num: 3,
-        regle: 'Même dénominateur → on compare uniquement les numérateurs. Le plus grand numérateur donne la plus grande fraction.',
+        regleHTML: true,
+        regleContenu: 'Quand deux fractions ont le <strong style="color:#d4820a;">même dénominateur</strong>, il suffit de comparer leurs <strong>numérateurs</strong> : la fraction avec le <strong style="color:#d4820a;">plus grand numérateur</strong> est la <strong>plus grande</strong>.',
         exercices: [
           { type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:3,den:7},{num:5,den:7}], bonne:1 },
           { type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:8,den:11},{num:4,den:11}], bonne:0 },
@@ -360,7 +392,8 @@
       },
       {
         num: 4,
-        regle: 'Même numérateur → plus le dénominateur est grand, plus la fraction est petite.',
+        regleHTML: true,
+        regleContenu: 'Quand deux fractions ont le <strong style="color:#d4820a;">même numérateur</strong>, c\'est le <strong>dénominateur</strong> qui fait la différence : <strong style="color:#d4820a;">plus il est grand</strong>, plus la fraction est <strong>petite</strong>.',
         exercices: [
           { type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:3,den:4},{num:3,den:7}], bonne:0 },
           { type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:5,den:8},{num:5,den:3}], bonne:1 },
@@ -437,7 +470,8 @@
       },
       {
         num: 7,
-        regle: 'Pour calculer une fraction d\'un nombre, on remplace "de" par × et on calcule.\nExemple : 2/5 de 60 = 2/5 × 60 = 24',
+        regleHTML: true,
+        regleContenu: 'Pour calculer une fraction d\'un nombre, on remplace le mot <strong style="color:#d4820a;">"de"</strong> par <strong style="color:#d4820a;">×</strong> et on calcule.<br><br>Exemple : <strong>2/5 de 60</strong> = 2/5 × 60 = <strong style="color:#d4820a;">24</strong>',
         exercices: [
           { type:'choix', consigne:'En maths, "de" se traduit par :', choix:['× (multiplier)','÷ (diviser)','+ (additionner)','− (soustraire)'], bonne:'× (multiplier)' },
           { type:'choix', consigne:`${fi(1,2,true)} <span class="mot-cle">de</span> 30 = ?`, choix:['15','60','10','30'], bonne:'15' },
@@ -512,13 +546,40 @@
       const p = POINTS[pi];
       document.getElementById('remed-prog-label').textContent = 'Point ' + p.num + ' / ' + POINTS.length;
       document.getElementById('remed-prog-fill').style.width  = (pi / POINTS.length * 100) + '%';
-      if (p.regleHTML) document.getElementById('regle-texte').innerHTML  = p.regleContenu;
-      else             document.getElementById('regle-texte').textContent = p.regle;
-      const ez = document.getElementById('remed-exercices');
+
+      // Affiche la règle avec animation
+      const regleTexte = document.getElementById('regle-texte');
+      const regleBloc  = regleTexte.closest('.regle-bloc');
+      regleBloc.style.animation = 'none';
+      regleBloc.offsetHeight; // force reflow
+      regleBloc.style.animation = '';
+
+      if (p.regleHTML) regleTexte.innerHTML  = p.regleContenu;
+      else             regleTexte.textContent = p.regle;
+
+      // Cache les exercices, montre le bouton Compris
+      const ez   = document.getElementById('remed-exercices');
+      const btnW = document.getElementById('btn-compris-wrap');
       ez.classList.remove('visible');
+      ez.style.display = 'none';
+      btnW.style.display = 'flex';
+
+      // Anime le bouton compris
+      btnW.style.animation = 'none';
+      btnW.offsetHeight;
+      btnW.style.animation = '';
+
       document.getElementById('remed-feedback').className  = 'remed-feedback';
       document.getElementById('remed-feedback').textContent = '';
-      setTimeout(() => { chargerExercice(pi, 0); ez.classList.add('visible'); }, 600);
+    }
+
+    function afficherExercices() {
+      const ez   = document.getElementById('remed-exercices');
+      const btnW = document.getElementById('btn-compris-wrap');
+      btnW.style.display = 'none';
+      ez.style.display   = 'flex';
+      chargerExercice(pointIndex, 0);
+      setTimeout(() => ez.classList.add('visible'), 20);
     }
 
     function chargerExercice(pi, ei) {
@@ -542,7 +603,12 @@
       exIndex++;
       if (exIndex >= POINTS[pointIndex].exercices.length) {
         if (pointIndex + 1 >= POINTS.length) allerVers('ecran-fiche','ecran-bravo');
-        else { document.getElementById('remed-exercices').classList.remove('visible'); setTimeout(() => chargerPoint(pointIndex + 1), 500); }
+        else {
+          const ez = document.getElementById('remed-exercices');
+          ez.classList.remove('visible');
+          ez.style.display = 'none';
+          setTimeout(() => chargerPoint(pointIndex + 1), 500);
+        }
       } else {
         const z = document.getElementById('remed-zone');
         z.style.opacity = '0'; z.style.transition = 'opacity 0.3s';
