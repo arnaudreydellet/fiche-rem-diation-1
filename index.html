@@ -34,16 +34,55 @@
       50%  { box-shadow: 0 0 0px 10px rgba(10,110,63,0.15), 0 0 0px 22px rgba(10,110,63,0.07); }
       100% { box-shadow: 0 0 0px 0px rgba(10,110,63,0.0); }
     }
+    @keyframes regleFadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes niveauApparition {
+      0%   { opacity: 0; transform: scale(0.75); }
+      18%  { opacity: 1; transform: scale(1.04); }
+      28%  { opacity: 1; transform: scale(1); }
+      75%  { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.06); }
+    }
+
+    /* ── OVERLAY TITRE NIVEAU ── */
+    .overlay-niveau {
+      position: fixed; inset: 0; z-index: 999;
+      background: #fdf6ec;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 12px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .overlay-niveau.actif { opacity: 1; }
+
+    .niveau-titre {
+      font-family: Arial, sans-serif;
+      font-size: clamp(30px, 6vw, 50px);
+      font-weight: 700;
+      color: #d4820a;
+      text-align: center;
+      opacity: 0;
+    }
+    .niveau-titre.jouer {
+      animation: niveauApparition 3.5s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    .niveau-sous {
+      font-family: Arial, sans-serif;
+      font-size: clamp(13px, 2vw, 17px);
+      font-weight: 600;
+      color: #b06a20;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0;
+    }
+    .niveau-sous.jouer {
+      animation: niveauApparition 3.5s 0.1s cubic-bezier(.22,1,.36,1) forwards;
+    }
 
     html, body { height: 100%; }
-
-    body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: Arial, sans-serif;
-    }
+    body { min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: Arial, sans-serif; }
 
     .header {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -113,137 +152,68 @@
     .consigne { font-size: 20px; font-weight: 500; color: var(--texte-fonce); text-align: center; line-height: 1.8; }
     .consigne .mot-cle { color: var(--vert-bord); font-weight: 700; }
 
-    /* Fraction inline dans les consignes */
-    .fi {
-      display: inline-flex; flex-direction: column; align-items: center;
-      vertical-align: middle; margin: 0 4px;
-      font-weight: 700; line-height: 1.1;
-    }
+    .fi { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; margin: 0 4px; font-weight: 700; line-height: 1.1; }
     .fi-barre { width: 100%; min-width: 16px; height: 2px; display: block; margin: 1px 0; }
 
     .fraction-grande { display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 8px 0; }
-    .frac-nombre {
-      font-size: 64px; font-weight: 700; color: var(--texte-fonce); line-height: 1;
-      cursor: pointer; padding: 10px 24px; border-radius: 16px;
-      border: 2.5px solid transparent; background: rgba(255,255,255,0.5);
-      transition: background 0.18s, border-color 0.18s, transform 0.15s;
-    }
+    .frac-nombre { font-size: 64px; font-weight: 700; color: var(--texte-fonce); line-height: 1; cursor: pointer; padding: 10px 24px; border-radius: 16px; border: 2.5px solid transparent; background: rgba(255,255,255,0.5); transition: background 0.18s, border-color 0.18s, transform 0.15s; }
     .frac-nombre:hover { background: rgba(16,140,90,0.1); border-color: var(--vert-fort); transform: scale(1.06); }
     .frac-barre { width: 100px; height: 4px; background: var(--texte-fonce); border-radius: 2px; }
 
     .choix-wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; width: 100%; }
-    .choix-btn {
-      padding: 14px 28px; border-radius: 16px; border: 2px solid rgba(10,110,63,0.25);
-      background: rgba(255,255,255,0.6); font-size: 18px; font-weight: 600; color: var(--texte-fonce);
-      cursor: pointer; transition: background 0.18s, border-color 0.18s, transform 0.15s; min-width: 120px; text-align: center;
-    }
+    .choix-btn { padding: 14px 28px; border-radius: 16px; border: 2px solid rgba(10,110,63,0.25); background: rgba(255,255,255,0.6); font-size: 18px; font-weight: 600; color: var(--texte-fonce); cursor: pointer; transition: background 0.18s, border-color 0.18s, transform 0.15s; min-width: 120px; text-align: center; }
     .choix-btn:hover { background: rgba(16,140,90,0.1); border-color: var(--vert-fort); transform: scale(1.04); }
 
     .fractions-comparaison { display: flex; align-items: center; gap: 32px; flex-wrap: wrap; justify-content: center; }
-    .frac-bloc {
-      display: flex; flex-direction: column; align-items: center; gap: 4px;
-      cursor: pointer; padding: 16px 28px; border-radius: 20px;
-      border: 2.5px solid transparent; background: rgba(255,255,255,0.5);
-      transition: background 0.18s, border-color 0.18s, transform 0.15s;
-    }
+    .frac-bloc { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 16px 28px; border-radius: 20px; border: 2.5px solid transparent; background: rgba(255,255,255,0.5); transition: background 0.18s, border-color 0.18s, transform 0.15s; }
     .frac-bloc:hover { background: rgba(16,140,90,0.1); border-color: var(--vert-fort); transform: scale(1.06); }
     .frac-bloc .fn { font-size: 48px; font-weight: 700; color: var(--texte-fonce); line-height: 1; }
     .frac-bloc .fb { width: 60px; height: 3px; background: var(--texte-fonce); border-radius: 2px; }
 
-    .frac-bloc-r {
-      display: flex; flex-direction: column; align-items: center; gap: 4px;
-      cursor: pointer; padding: 16px 28px; border-radius: 20px;
-      border: 2.5px solid transparent; background: rgba(255,255,255,0.5);
-      transition: background 0.18s, border-color 0.18s, transform 0.15s;
-    }
+    .frac-bloc-r { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 16px 28px; border-radius: 20px; border: 2.5px solid transparent; background: rgba(255,255,255,0.5); transition: background 0.18s, border-color 0.18s, transform 0.15s; }
     .frac-bloc-r:hover { background: rgba(212,130,10,0.1); border-color: #d4820a; transform: scale(1.06); }
     .frac-bloc-r .fn { font-size: 48px; font-weight: 700; color: #3d2000; line-height: 1; }
     .frac-bloc-r .fb { width: 60px; height: 3px; background: #3d2000; border-radius: 2px; }
 
-    .feedback {
-      font-size: 15px; font-weight: 700; padding: 10px 24px; border-radius: 999px;
-      min-height: 40px; display: flex; align-items: center; justify-content: center;
-      opacity: 0; transition: opacity 0.3s;
-    }
+    .feedback { font-size: 15px; font-weight: 700; padding: 10px 24px; border-radius: 999px; min-height: 40px; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
     .feedback.correct { background: rgba(16,140,90,0.15); color: var(--vert-bord); opacity: 1; }
     .feedback.faux    { background: rgba(200,50,50,0.12);  color: #a83232;          opacity: 1; }
 
-    .remed-carte {
-      background: rgba(255,255,255,0.70);
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.9);
-      border-radius: 28px; padding: 40px 52px 48px;
-      display: flex; flex-direction: column; align-items: center; gap: 0;
-      max-width: 600px; width: 92%;
-    }
+    .remed-carte { background: rgba(255,255,255,0.70); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.9); border-radius: 28px; padding: 40px 52px 48px; display: flex; flex-direction: column; align-items: center; gap: 0; max-width: 600px; width: 92%; }
     .remed-prog-wrap { width: 100%; margin-bottom: 24px; }
-    .remed-prog-header {
-      display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 10px;
-    }
-    .remed-prog-badge {
-      font-size: 13px; font-weight: 700;
-      background: rgba(212,130,10,0.15);
-      color: #b06a20;
-      padding: 5px 18px; border-radius: 999px;
-      letter-spacing: 0.04em;
-    }
-    .remed-prog-num {
-      font-size: 11px; font-weight: 600; color: #c8913a;
-      letter-spacing: 0.05em; text-transform: uppercase;
-    }
+    .remed-prog-header { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .remed-prog-badge { font-size: 13px; font-weight: 700; background: rgba(212,130,10,0.15); color: #b06a20; padding: 5px 18px; border-radius: 999px; letter-spacing: 0.04em; }
+    .remed-prog-num { font-size: 11px; font-weight: 600; color: #c8913a; letter-spacing: 0.05em; text-transform: uppercase; }
     .remed-prog-track { width: 100%; height: 6px; background: rgba(180,100,20,0.12); border-radius: 999px; overflow: hidden; }
     .remed-prog-fill  { height: 100%; background: #d4820a; border-radius: 999px; transition: width 0.6s cubic-bezier(.22,1,.36,1); width: 0%; }
 
-    @keyframes regleFadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .regle-bloc {
-      width: 100%; background: rgba(212,130,10,0.08);
-      border-left: 4px solid #d4820a;
-      border-radius: 0 12px 12px 0;
-      padding: 16px 20px; margin-bottom: 0;
-      animation: regleFadeIn 0.6s cubic-bezier(.22,1,.36,1) both;
-    }
+    .regle-bloc { width: 100%; background: rgba(212,130,10,0.08); border-left: 4px solid #d4820a; border-radius: 0 12px 12px 0; padding: 16px 20px; margin-bottom: 0; animation: regleFadeIn 0.6s cubic-bezier(.22,1,.36,1) both; }
     .regle-label { font-size: 10px; font-weight: 700; color: #b06a20; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
     .regle-texte { font-size: 15px; font-weight: 500; color: #3d2000; line-height: 1.6; }
 
-    .btn-compris-wrap {
-      width: 100%; display: flex; justify-content: center;
-      margin: 20px 0 28px;
-      animation: regleFadeIn 0.6s 0.3s cubic-bezier(.22,1,.36,1) both;
-    }
-    .btn-compris {
-      padding: 12px 44px; border-radius: 999px;
-      border: 2.5px solid #d4820a; background: transparent;
-      font-size: 15px; font-weight: 700; cursor: pointer;
-      letter-spacing: 0.04em; color: #d4820a;
-      transition: background 0.2s, color 0.2s, transform 0.15s;
-    }
+    .btn-compris-wrap { width: 100%; display: flex; justify-content: center; margin: 20px 0 28px; animation: regleFadeIn 0.6s 0.3s cubic-bezier(.22,1,.36,1) both; }
+    .btn-compris { padding: 12px 44px; border-radius: 999px; border: 2.5px solid #d4820a; background: transparent; font-size: 15px; font-weight: 700; cursor: pointer; letter-spacing: 0.04em; color: #d4820a; transition: background 0.2s, color 0.2s, transform 0.15s; }
     .btn-compris:hover { background: #d4820a; color: #fff; transform: scale(1.04); }
     .btn-compris:active { transform: scale(0.97); }
 
-    .remed-exercices {
-      width: 100%; display: flex; flex-direction: column; align-items: center; gap: 20px;
-      opacity: 0; transform: translateY(16px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
+    .remed-exercices { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 20px; opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
     .remed-exercices.visible { opacity: 1; transform: translateY(0); }
 
     .remed-consigne { font-size: 19px; font-weight: 500; color: #3d2000; text-align: center; line-height: 1.8; }
     .remed-consigne .mot-cle { color: #d4820a; font-weight: 700; }
 
-    .remed-feedback {
-      font-size: 15px; font-weight: 700; padding: 10px 24px; border-radius: 999px;
-      min-height: 40px; display: flex; align-items: center; justify-content: center;
-      opacity: 0; transition: opacity 0.3s;
-    }
+    .remed-feedback { font-size: 15px; font-weight: 700; padding: 10px 24px; border-radius: 999px; min-height: 40px; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
     .remed-feedback.correct { background: rgba(16,140,90,0.15); color: #0a6e3f; opacity: 1; }
     .remed-feedback.faux    { background: rgba(200,50,50,0.12);  color: #a83232; opacity: 1; }
   </style>
 </head>
 <body>
+
+  <!-- OVERLAY TITRE NIVEAU -->
+  <div class="overlay-niveau" id="overlay-niveau">
+    <div class="niveau-titre" id="niveau-titre">Numérateur et dénominateur</div>
+    <div class="niveau-sous"  id="niveau-sous">Point 1 / 7</div>
+  </div>
 
   <div class="header">
     <div class="header-ligne">
@@ -336,6 +306,48 @@
     </div>
   </div>
 
+  <!-- ÉCRAN TRANSITION QUIZ FINAL -->
+  <div class="ecran fond-vert cache" id="ecran-transition-final">
+    <div class="carte anime">
+      <div class="badge">Vérification finale</div>
+      <div class="titre">Maintenant<br>vérifions que tu as<br><span class="accent">bien compris !</span></div>
+      <div class="texte-intro">Tu vas repasser le même quiz qu'au début.<br>Montre ce que tu as appris 💪</div>
+      <button class="btn" onclick="versQuizFinal()">C'est parti !</button>
+    </div>
+  </div>
+
+  <!-- ÉCRAN QUIZ FINAL -->
+  <div class="ecran fond-vert cache" id="ecran-quiz-final">
+    <div class="quiz-carte">
+      <div class="prog-wrap">
+        <div class="prog-label" id="prog-label-final">Point 1 / 6</div>
+        <div class="prog-track"><div class="prog-fill" id="prog-fill-final"></div></div>
+      </div>
+      <div class="consigne" id="consigne-final"></div>
+      <div id="zone-question-final"></div>
+      <div class="feedback" id="feedback-final"></div>
+    </div>
+  </div>
+
+  <!-- ÉCRAN RÉSULTAT FINAL : RÉUSSI (+80%) -->
+  <div class="ecran fond-vert cache" id="ecran-final-ok">
+    <div class="carte anime">
+      <div class="badge" style="background:rgba(16,140,90,0.15);color:#0a6e3f;">Notion maîtrisée ✓</div>
+      <div class="titre">Bravo <span class="accent" id="prenom-final-ok"></span> ! 🎉</div>
+      <div class="texte-intro" id="texte-final-ok"></div>
+    </div>
+  </div>
+
+  <!-- ÉCRAN RÉSULTAT FINAL : À REVOIR (-80%) -->
+  <div class="ecran fond-vert cache" id="ecran-final-revoir">
+    <div class="carte anime">
+      <div class="badge" style="background:rgba(200,50,50,0.12);color:#a83232;">À revoir</div>
+      <div class="titre">Pas encore <span class="accent" id="prenom-final-revoir"></span>…</div>
+      <div class="texte-intro" id="texte-final-revoir"></div>
+      <button class="btn" onclick="revenirFiche()">Revoir le cours</button>
+    </div>
+  </div>
+
   <script>
     const params = new URLSearchParams(window.location.search);
     const nom    = params.get('nom')    || 'Élève';
@@ -344,11 +356,12 @@
     document.getElementById('header-lycee').textContent  = lycee;
     document.getElementById('header-classe').textContent = classe;
     document.getElementById('header-nom').textContent    = nom;
-    document.getElementById('prenom-valide').textContent = nom.split(' ')[0];
-    document.getElementById('prenom-score').textContent  = nom.split(' ')[0];
-    document.getElementById('prenom-bravo').textContent  = nom.split(' ')[0];
+    document.getElementById('prenom-valide').textContent     = nom.split(' ')[0];
+    document.getElementById('prenom-score').textContent      = nom.split(' ')[0];
+    document.getElementById('prenom-bravo').textContent      = nom.split(' ')[0];
+    document.getElementById('prenom-final-ok').textContent   = nom.split(' ')[0];
+    document.getElementById('prenom-final-revoir').textContent = nom.split(' ')[0];
 
-    // Fraction inline : génère une fraction avec barre horizontale
     function fi(a, b, orange) {
       const col = orange ? '#d4820a' : 'var(--vert-bord)';
       return `<span class="fi" style="color:${col};font-size:0.85em;"><span>${a}</span><span class="fi-barre" style="background:${col};width:100%;min-width:18px;height:2px;display:block;margin:1px 0;"></span><span>${b}</span></span>`;
@@ -370,8 +383,7 @@
     ];
 
     const POINTS = [
-      { num:1, titre:'Numérateur et dénominateur',
-        regleHTML: true,
+      { num:1, titre:'Numérateur et dénominateur', regleHTML:true,
         regleContenu: 'Le <strong style="color:#d4820a;">numérateur</strong> est le nombre <strong>en haut</strong>. Le <strong style="color:#d4820a;">dénominateur</strong> est le nombre <strong>en bas</strong>.',
         exercices: [
           { type:'fraction-clic', consigne:'Clique sur le <span class="mot-cle">numérateur</span>', num:3, den:4, cible:'num' },
@@ -381,8 +393,7 @@
           { type:'fraction-clic', consigne:'Clique sur le <span class="mot-cle">numérateur</span>', num:7, den:9, cible:'num' },
         ]
       },
-      { num:2, titre:'La fraction = une division',
-        regleHTML: true,
+      { num:2, titre:'Barre de fraction, quelle signification ?', regleHTML:true,
         regleContenu: 'La barre de fraction signifie <strong style="color:#d4820a;">divisé</strong>. Ainsi <strong>a/b = a ÷ b</strong> — la barre remplace le signe ÷.',
         exercices: [
           { type:'choix', consigne:'La barre de fraction signifie :', choix:['÷','×','+','−'], bonne:'÷' },
@@ -392,8 +403,7 @@
           { type:'choix', consigne:`${fi(12,5,true)} c'est la même chose que :`, choix:['5÷12','12+5','12÷5','12×5'], bonne:'12÷5' },
         ]
       },
-      { num:3, titre:'Comparer — même dénominateur',
-        regleHTML: true,
+      { num:3, titre:'Comparer deux fractions de même dénominateur', regleHTML:true,
         regleContenu: 'Quand deux fractions ont le <strong style="color:#d4820a;">même dénominateur</strong>, il suffit de comparer leurs <strong>numérateurs</strong> : la fraction avec le <strong style="color:#d4820a;">plus grand numérateur</strong> est la <strong>plus grande</strong>.',
         exercices: [
           { type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:3,den:7},{num:5,den:7}], bonne:1 },
@@ -403,8 +413,7 @@
           { type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:1,den:8},{num:7,den:8}], bonne:1 },
         ]
       },
-      { num:4, titre:'Comparer — même numérateur',
-        regleHTML: true,
+      { num:4, titre:'Comparer deux fractions de même numérateur', regleHTML:true,
         regleContenu: 'Quand deux fractions ont le <strong style="color:#d4820a;">même numérateur</strong>, c\'est le <strong>dénominateur</strong> qui fait la différence : <strong style="color:#d4820a;">plus il est grand</strong>, plus la fraction est <strong>petite</strong>.',
         exercices: [
           { type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:3,den:4},{num:3,den:7}], bonne:0 },
@@ -414,34 +423,27 @@
           { type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:1,den:4},{num:1,den:2}], bonne:1 },
         ]
       },
-      { num:5, titre:'Comparer à 1 et à ½',
-        regleHTML: true,
+      { num:5, titre:'Le numérateur face au dénominateur', regleHTML:true,
         regleContenu: `
           <div style="display:flex;flex-direction:column;gap:10px;">
             <div style="background:rgba(212,130,10,0.1);border-radius:10px;padding:10px 14px;">
               <div style="color:#3d2000;font-size:15px;line-height:1.5;">Quand le numérateur est <strong>plus grand</strong> que le dénominateur, alors la fraction est <strong style="color:#d4820a;">supérieure (&gt; 1)</strong></div>
               <div style="margin-top:6px;display:flex;align-items:center;gap:8px;">
-                <div style="display:inline-flex;flex-direction:column;align-items:center;font-size:16px;font-weight:700;color:#d4820a;">
-                  <span>7</span><div style="width:22px;height:2.5px;background:#d4820a;margin:2px 0;border-radius:2px;"></div><span>5</span>
-                </div>
+                <div style="display:inline-flex;flex-direction:column;align-items:center;font-size:16px;font-weight:700;color:#d4820a;"><span>7</span><div style="width:22px;height:2.5px;background:#d4820a;margin:2px 0;border-radius:2px;"></div><span>5</span></div>
                 <span style="color:#3d2000;font-size:14px;">→ 7 &gt; 5 donc <strong style="color:#d4820a;">&gt; 1</strong> ✓</span>
               </div>
             </div>
             <div style="background:rgba(212,130,10,0.1);border-radius:10px;padding:10px 14px;">
               <div style="color:#3d2000;font-size:15px;line-height:1.5;">Quand le numérateur est <strong>plus petit</strong> que le dénominateur, la fraction est <strong style="color:#d4820a;">inférieure (&lt; 1)</strong></div>
               <div style="margin-top:6px;display:flex;align-items:center;gap:8px;">
-                <div style="display:inline-flex;flex-direction:column;align-items:center;font-size:16px;font-weight:700;color:#d4820a;">
-                  <span>3</span><div style="width:22px;height:2.5px;background:#d4820a;margin:2px 0;border-radius:2px;"></div><span>8</span>
-                </div>
+                <div style="display:inline-flex;flex-direction:column;align-items:center;font-size:16px;font-weight:700;color:#d4820a;"><span>3</span><div style="width:22px;height:2.5px;background:#d4820a;margin:2px 0;border-radius:2px;"></div><span>8</span></div>
                 <span style="color:#3d2000;font-size:14px;">→ 3 &lt; 8 donc <strong style="color:#d4820a;">&lt; 1</strong> ✓</span>
               </div>
             </div>
             <div style="background:rgba(212,130,10,0.1);border-radius:10px;padding:10px 14px;">
               <div style="color:#3d2000;font-size:15px;line-height:1.5;">Quand le numérateur correspond à la <strong>moitié du dénominateur</strong>, alors la fraction est <strong style="color:#d4820a;">égale à ½</strong></div>
               <div style="margin-top:6px;display:flex;align-items:center;gap:8px;">
-                <div style="display:inline-flex;flex-direction:column;align-items:center;font-size:16px;font-weight:700;color:#d4820a;">
-                  <span>6</span><div style="width:22px;height:2.5px;background:#d4820a;margin:2px 0;border-radius:2px;"></div><span>12</span>
-                </div>
+                <div style="display:inline-flex;flex-direction:column;align-items:center;font-size:16px;font-weight:700;color:#d4820a;"><span>6</span><div style="width:22px;height:2.5px;background:#d4820a;margin:2px 0;border-radius:2px;"></div><span>12</span></div>
                 <span style="color:#3d2000;font-size:14px;">→ 6 = 12 ÷ 2 donc <strong style="color:#d4820a;">= ½</strong> ✓</span>
               </div>
             </div>
@@ -454,19 +456,14 @@
           { type:'choix', consigne:`La fraction ${fi(9,7,true)} est :`, choix:['> 1','< 1','= 1'], bonne:'> 1' },
         ]
       },
-      { num:6, titre:'Fractions égales',
-        regleHTML: true,
+      { num:6, titre:'Multiplier ou diviser 2 fractions égales', regleHTML:true,
         regleContenu: `
           <div style="color:#3d2000;font-size:15px;line-height:1.6;">
             <div style="margin-bottom:10px;">On peut multiplier <strong>ou</strong> diviser le numérateur <strong>et</strong> le dénominateur par le même nombre sans changer la valeur de la fraction.</div>
             <div style="background:rgba(212,130,10,0.1);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-              <div style="display:inline-flex;flex-direction:column;align-items:center;font-size:18px;font-weight:700;color:#d4820a;">
-                <span>2</span><div style="width:24px;height:2.5px;background:#d4820a;margin:2px 0;border-radius:2px;"></div><span>3</span>
-              </div>
+              <div style="display:inline-flex;flex-direction:column;align-items:center;font-size:18px;font-weight:700;color:#d4820a;"><span>2</span><div style="width:24px;height:2.5px;background:#d4820a;margin:2px 0;border-radius:2px;"></div><span>3</span></div>
               <span style="font-size:14px;color:#3d2000;">× 2 sur num. ET dénom. →</span>
-              <div style="display:inline-flex;flex-direction:column;align-items:center;font-size:18px;font-weight:700;color:#d4820a;">
-                <span>4</span><div style="width:24px;height:2.5px;background:#d4820a;margin:2px 0;border-radius:2px;"></div><span>6</span>
-              </div>
+              <div style="display:inline-flex;flex-direction:column;align-items:center;font-size:18px;font-weight:700;color:#d4820a;"><span>4</span><div style="width:24px;height:2.5px;background:#d4820a;margin:2px 0;border-radius:2px;"></div><span>6</span></div>
               <span style="font-size:14px;color:#3d2000;">→ même valeur ✓</span>
             </div>
           </div>`,
@@ -478,8 +475,7 @@
           { type:'choix', consigne:`${fi(1,2,true)} = <span class="mot-cle">?</span> / 10`, choix:['5','2','10','4'], bonne:'5' },
         ]
       },
-      { num:7, titre:'Fraction d\'un nombre',
-        regleHTML: true,
+      { num:7, titre:'Fraction d\'un nombre', regleHTML:true,
         regleContenu: 'Pour calculer une fraction d\'un nombre, on remplace le mot <strong style="color:#d4820a;">"de"</strong> par <strong style="color:#d4820a;">×</strong> et on calcule.<br><br>Exemple : <strong>2/5 de 60</strong> = 2/5 × 60 = <strong style="color:#d4820a;">24</strong>',
         exercices: [
           { type:'choix', consigne:'En maths, "de" se traduit par :', choix:['× (multiplier)','÷ (diviser)','+ (additionner)','− (soustraire)'], bonne:'× (multiplier)' },
@@ -494,6 +490,37 @@
     const TOTAL_QUIZ = 6;
     let qIndex = 0, bloque = false, bonnesRep = 0;
     let pointIndex = 0, exIndex = 0, bloqueR = false;
+    // Quiz final
+    let qFinalIndex = 0, bloqueFinal = false, bonnesRepFinal = 0;
+
+    // ── Affiche le titre niveau style jeu vidéo ─────────────────
+    function afficherNiveau(titre, num, total, callback) {
+      const overlay = document.getElementById('overlay-niveau');
+      const elTitre = document.getElementById('niveau-titre');
+      const elSous  = document.getElementById('niveau-sous');
+
+      elTitre.textContent = titre;
+      elSous.textContent  = 'Point ' + num + ' / ' + total;
+
+      // Reset animations
+      elTitre.classList.remove('jouer');
+      elSous.classList.remove('jouer');
+      void elTitre.offsetWidth;
+
+      overlay.classList.add('actif');
+
+      requestAnimationFrame(() => {
+        elTitre.classList.add('jouer');
+        elSous.classList.add('jouer');
+      });
+
+      setTimeout(() => {
+        overlay.classList.remove('actif');
+        elTitre.classList.remove('jouer');
+        elSous.classList.remove('jouer');
+        if (callback) callback();
+      }, 3700);
+    }
 
     function allerVers(a, b) {
       const d = document.getElementById(a), ar = document.getElementById(b);
@@ -506,9 +533,13 @@
       }, 500);
     }
 
-    function versIntro()      { allerVers('ecran-accueil','ecran-intro'); }
-    function versQuiz()       { allerVers('ecran-intro','ecran-quiz'); setTimeout(() => chargerQuestion(0), 600); }
-    function commencerFiche() { allerVers('ecran-score','ecran-fiche'); setTimeout(() => chargerPoint(0), 600); }
+    function versIntro() { allerVers('ecran-accueil','ecran-intro'); }
+    function versQuiz()  { allerVers('ecran-intro','ecran-quiz'); setTimeout(() => chargerQuestion(0), 600); }
+
+    function commencerFiche() {
+      allerVers('ecran-score','ecran-fiche');
+      setTimeout(() => afficherNiveau(POINTS[0].titre, POINTS[0].num, POINTS.length, () => chargerPoint(0)), 700);
+    }
 
     function versFin() {
       const score = Math.round((bonnesRep / QUESTIONS.length) * 100);
@@ -557,37 +588,28 @@
       document.getElementById('remed-prog-label').textContent = 'Point ' + p.num + ' / ' + POINTS.length;
       document.getElementById('remed-prog-fill').style.width  = (pi / POINTS.length * 100) + '%';
 
-      // Affiche la règle avec animation
       const regleTexte = document.getElementById('regle-texte');
       const regleBloc  = regleTexte.closest('.regle-bloc');
-      regleBloc.style.animation = 'none';
-      regleBloc.offsetHeight; // force reflow
-      regleBloc.style.animation = '';
+      regleBloc.style.animation = 'none'; regleBloc.offsetHeight; regleBloc.style.animation = '';
 
       if (p.regleHTML) regleTexte.innerHTML  = p.regleContenu;
       else             regleTexte.textContent = p.regle;
 
-      // Cache les exercices, montre le bouton Compris
-      const ez   = document.getElementById('remed-exercices');
+      const ez = document.getElementById('remed-exercices');
       const btnW = document.getElementById('btn-compris-wrap');
-      ez.classList.remove('visible');
-      ez.style.display = 'none';
+      ez.classList.remove('visible'); ez.style.display = 'none';
       btnW.style.display = 'flex';
-
-      // Anime le bouton compris
-      btnW.style.animation = 'none';
-      btnW.offsetHeight;
-      btnW.style.animation = '';
+      btnW.style.animation = 'none'; btnW.offsetHeight; btnW.style.animation = '';
 
       document.getElementById('remed-feedback').className  = 'remed-feedback';
       document.getElementById('remed-feedback').textContent = '';
     }
 
     function afficherExercices() {
-      const ez   = document.getElementById('remed-exercices');
+      const ez = document.getElementById('remed-exercices');
       const btnW = document.getElementById('btn-compris-wrap');
       btnW.style.display = 'none';
-      ez.style.display   = 'flex';
+      ez.style.display = 'flex';
       chargerExercice(pointIndex, 0);
       setTimeout(() => ez.classList.add('visible'), 20);
     }
@@ -612,18 +634,80 @@
     function suiteRemed() {
       exIndex++;
       if (exIndex >= POINTS[pointIndex].exercices.length) {
-        if (pointIndex + 1 >= POINTS.length) allerVers('ecran-fiche','ecran-bravo');
-        else {
+        if (pointIndex + 1 >= POINTS.length) {
+          allerVers('ecran-fiche','ecran-transition-final');
+        } else {
           const ez = document.getElementById('remed-exercices');
-          ez.classList.remove('visible');
-          ez.style.display = 'none';
-          setTimeout(() => chargerPoint(pointIndex + 1), 500);
+          ez.classList.remove('visible'); ez.style.display = 'none';
+          const nextPi = pointIndex + 1;
+          setTimeout(() => {
+            afficherNiveau(POINTS[nextPi].titre, POINTS[nextPi].num, POINTS.length, () => chargerPoint(nextPi));
+          }, 300);
         }
       } else {
         const z = document.getElementById('remed-zone');
         z.style.opacity = '0'; z.style.transition = 'opacity 0.3s';
         setTimeout(() => { chargerExercice(pointIndex, exIndex); z.style.opacity = '1'; }, 300);
       }
+    }
+
+    // ── Quiz final ───────────────────────────────────────────────
+    function versQuizFinal() {
+      allerVers('ecran-transition-final','ecran-quiz-final');
+      qFinalIndex = 0; bonnesRepFinal = 0; bloqueFinal = false;
+      setTimeout(() => chargerQuestionFinale(0), 600);
+    }
+
+    function chargerQuestionFinale(i) {
+      bloqueFinal = false;
+      const q = QUESTIONS[i];
+      document.getElementById('prog-label-final').textContent = 'Point ' + q.point + ' / ' + TOTAL_QUIZ;
+      document.getElementById('prog-fill-final').style.width  = ((q.point - 1) / TOTAL_QUIZ * 100) + '%';
+      document.getElementById('consigne-final').innerHTML     = q.consigne;
+      document.getElementById('feedback-final').className     = 'feedback';
+      document.getElementById('feedback-final').textContent   = '';
+      afficherZone('zone-question-final', q, 'repondreFinal', false);
+    }
+
+    function repondreFinal(choix) {
+      if (bloqueFinal) return; bloqueFinal = true;
+      const correct = evaluer(QUESTIONS[qFinalIndex], choix);
+      const fb = document.getElementById('feedback-final');
+      if (correct) { bonnesRepFinal++; fb.textContent = '✓ Bonne réponse !'; fb.className = 'feedback correct'; setTimeout(suiteFinal, 650); }
+      else { fb.textContent = '✗ Pas tout à fait !'; fb.className = 'feedback faux'; setTimeout(suiteFinal, 1100); }
+    }
+
+    function suiteFinal() {
+      qFinalIndex++;
+      if (qFinalIndex >= QUESTIONS.length) {
+        versFinalResultat();
+      } else {
+        const z = document.getElementById('zone-question-final');
+        z.style.opacity = '0'; z.style.transition = 'opacity 0.3s';
+        setTimeout(() => { chargerQuestionFinale(qFinalIndex); z.style.opacity = '1'; }, 300);
+      }
+    }
+
+    function versFinalResultat() {
+      const scoreFinal   = Math.round((bonnesRepFinal  / QUESTIONS.length) * 100);
+      const scoreInitial = Math.round((bonnesRep        / QUESTIONS.length) * 100);
+      const prenom       = nom.split(' ')[0];
+
+      if (scoreFinal >= 80) {
+        document.getElementById('texte-final-ok').innerHTML =
+          'Tu es passé de <strong>' + scoreInitial + '%</strong> à <strong style="color:var(--vert-bord);">' + scoreFinal + '%</strong> de bonnes réponses.<br>C\'est une belle progression ! Ton enseignant a été informé.';
+        allerVers('ecran-quiz-final','ecran-final-ok');
+      } else {
+        document.getElementById('texte-final-revoir').innerHTML =
+          'Tu as eu <strong>' + bonnesRepFinal + ' / ' + QUESTIONS.length + ' bonnes réponses</strong> (' + scoreFinal + '%).<br>Relis le cours et réessaie, tu vas y arriver !';
+        allerVers('ecran-quiz-final','ecran-final-revoir');
+      }
+    }
+
+    function revenirFiche() {
+      // Repart au début de la remédiation
+      allerVers('ecran-final-revoir','ecran-fiche');
+      setTimeout(() => afficherNiveau(POINTS[0].titre, POINTS[0].num, POINTS.length, () => chargerPoint(0)), 700);
     }
 
     function evaluer(q, choix) {
@@ -637,25 +721,11 @@
       const z = document.getElementById(zoneId);
       const blocClass = orange ? 'frac-bloc-r' : 'frac-bloc';
       if (q.type === 'fraction-clic') {
-        z.innerHTML = `<div class="fraction-grande">
-          <div class="frac-nombre" onclick="${fn}('num')">${q.num}</div>
-          <div class="frac-barre"></div>
-          <div class="frac-nombre" onclick="${fn}('den')">${q.den}</div>
-        </div>`;
+        z.innerHTML = `<div class="fraction-grande"><div class="frac-nombre" onclick="${fn}('num')">${q.num}</div><div class="frac-barre"></div><div class="frac-nombre" onclick="${fn}('den')">${q.den}</div></div>`;
       } else if (q.type === 'choix') {
-        z.innerHTML = '<div class="choix-wrap">' +
-          q.choix.map(c => {
-            const s = c.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-            return `<button class="choix-btn" onclick="${fn}('${s}')">${c}</button>`;
-          }).join('') + '</div>';
+        z.innerHTML = '<div class="choix-wrap">' + q.choix.map(c => { const s = c.replace(/\\/g,'\\\\').replace(/'/g,"\\'"); return `<button class="choix-btn" onclick="${fn}('${s}')">${c}</button>`; }).join('') + '</div>';
       } else if (q.type === 'comparaison') {
-        z.innerHTML = '<div class="fractions-comparaison">' +
-          q.fractions.map((f,i) => `
-            <div class="${blocClass}" onclick="${fn}(${i})">
-              <div class="fn">${f.num}</div>
-              <div class="fb"></div>
-              <div class="fn">${f.den}</div>
-            </div>`).join('') + '</div>';
+        z.innerHTML = '<div class="fractions-comparaison">' + q.fractions.map((f,i) => `<div class="${blocClass}" onclick="${fn}(${i})"><div class="fn">${f.num}</div><div class="fb"></div><div class="fn">${f.den}</div></div>`).join('') + '</div>';
       }
     }
   </script>
