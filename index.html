@@ -212,8 +212,17 @@
     </div>
   </div>
 
+  <!-- ÉCRAN 0 : CHARGEMENT -->
+  <div class="ecran fond-vert" id="ecran-chargement">
+    <div class="carte anime">
+      <div class="badge">Fiche remédiation · 1</div>
+      <div class="titre">Chargement<br><span class="accent">en cours…</span></div>
+      <div class="texte-intro" style="margin-top:8px;">Un instant, on vérifie ta progression 🔄</div>
+    </div>
+  </div>
+
   <!-- ÉCRAN 1 : ACCUEIL -->
-  <div class="ecran fond-vert" id="ecran-accueil">
+  <div class="ecran fond-vert cache" id="ecran-accueil">
     <div class="carte anime">
       <div class="badge">Fiche remédiation · 1</div>
       <div class="titre">Comprendre les<br><span class="accent">fractions</span></div>
@@ -388,14 +397,25 @@
 
     // ── Vérifier progression au chargement ──────────────────────
     async function verifierProgression() {
-      if (!email) return;
+      // Si pas d'email, on affiche directement l'accueil
+      if (!email) {
+        allerVers('ecran-chargement', 'ecran-accueil');
+        return;
+      }
       try {
         const res  = await fetch(APPS_SCRIPT_URL + '?type=remediation&etablissement=' + encodeURIComponent(lycee));
         const data = await res.json();
-        if (data.status !== 'ok') return;
+        if (data.status !== 'ok') {
+          allerVers('ecran-chargement', 'ecran-accueil');
+          return;
+        }
 
         const lignes = (data.data || []).filter(r => r.eleve_id === email && r.fiche_id === FICHE_ID);
-        if (!lignes.length) return;
+
+        if (!lignes.length) {
+          allerVers('ecran-chargement', 'ecran-accueil');
+          return;
+        }
 
         const init = lignes.find(r => r.statut === 'quiz_initial');
         if (init) {
@@ -408,12 +428,23 @@
         ).length;
 
         if (lignes.find(r => r.statut === 'echec_3_tentatives')) {
-          allerVers('ecran-accueil', 'ecran-bloque'); return;
+          allerVers('ecran-chargement', 'ecran-bloque'); return;
         }
         if (lignes.find(r => r.statut === 'quiz_final_valide')) {
-          allerVers('ecran-accueil', 'ecran-valide'); return;
+          allerVers('ecran-chargement', 'ecran-valide'); return;
         }
-      } catch(e) {}
+        if (init) {
+          // Quiz initial déjà passé → aller directement à la remédiation
+          allerVers('ecran-chargement', 'ecran-score');
+          document.getElementById('score-texte').innerHTML =
+            'Tu avais eu <strong>' + bonnesRep + ' / ' + QUESTIONS.length + ' bonnes réponses</strong>.<br>Continue la fiche là où tu t\'étais arrêté.';
+          return;
+        }
+        allerVers('ecran-chargement', 'ecran-accueil');
+
+      } catch(e) {
+        allerVers('ecran-chargement', 'ecran-accueil');
+      }
     }
     verifierProgression();
 
