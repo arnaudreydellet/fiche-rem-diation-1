@@ -46,7 +46,6 @@
       100% { opacity: 0; transform: scale(1.06); }
     }
 
-    /* ── OVERLAY TITRE NIVEAU ── */
     .overlay-niveau {
       position: fixed; inset: 0; z-index: 999;
       background: #fdf6ec;
@@ -56,30 +55,18 @@
       transition: opacity 0.25s ease;
     }
     .overlay-niveau.actif { opacity: 1; }
-
     .niveau-titre {
       font-family: Arial, sans-serif;
-      font-size: clamp(30px, 6vw, 50px);
-      font-weight: 700;
-      color: #d4820a;
-      text-align: center;
-      opacity: 0;
+      font-size: clamp(30px, 6vw, 50px); font-weight: 700;
+      color: #d4820a; text-align: center; opacity: 0;
     }
-    .niveau-titre.jouer {
-      animation: niveauApparition 3.5s cubic-bezier(.22,1,.36,1) forwards;
-    }
+    .niveau-titre.jouer { animation: niveauApparition 3.5s cubic-bezier(.22,1,.36,1) forwards; }
     .niveau-sous {
       font-family: Arial, sans-serif;
-      font-size: clamp(13px, 2vw, 17px);
-      font-weight: 600;
-      color: #b06a20;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      opacity: 0;
+      font-size: clamp(13px, 2vw, 17px); font-weight: 600;
+      color: #b06a20; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0;
     }
-    .niveau-sous.jouer {
-      animation: niveauApparition 3.5s 0.1s cubic-bezier(.22,1,.36,1) forwards;
-    }
+    .niveau-sous.jouer { animation: niveauApparition 3.5s 0.1s cubic-bezier(.22,1,.36,1) forwards; }
 
     html, body { height: 100%; }
     body { min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: Arial, sans-serif; }
@@ -225,6 +212,7 @@
     </div>
   </div>
 
+  <!-- ÉCRAN 1 : ACCUEIL -->
   <div class="ecran fond-vert" id="ecran-accueil">
     <div class="carte anime">
       <div class="badge">Fiche remédiation · 1</div>
@@ -233,6 +221,7 @@
     </div>
   </div>
 
+  <!-- ÉCRAN 2 : INTRO -->
   <div class="ecran fond-vert cache" id="ecran-intro">
     <div class="carte">
       <div class="badge">Fiche remédiation · 1</div>
@@ -245,6 +234,7 @@
     </div>
   </div>
 
+  <!-- ÉCRAN 3 : QUIZ INITIAL -->
   <div class="ecran fond-vert cache" id="ecran-quiz">
     <div class="quiz-carte">
       <div class="prog-wrap">
@@ -257,6 +247,7 @@
     </div>
   </div>
 
+  <!-- ÉCRAN 4A : VALIDÉ DÈS LE QUIZ INITIAL -->
   <div class="ecran fond-vert cache" id="ecran-valide">
     <div class="carte anime">
       <div class="badge" style="background:rgba(16,140,90,0.15);color:#0a6e3f;">Notion validée ✓</div>
@@ -265,6 +256,7 @@
     </div>
   </div>
 
+  <!-- ÉCRAN 4B : SCORE + LANCEMENT FICHE -->
   <div class="ecran fond-vert cache" id="ecran-score">
     <div class="carte anime">
       <div class="badge" style="background:rgba(200,100,50,0.12);color:#a85a20;">Quiz terminé</div>
@@ -274,6 +266,7 @@
     </div>
   </div>
 
+  <!-- ÉCRAN 5 : REMÉDIATION -->
   <div class="ecran fond-chaud cache" id="ecran-fiche">
     <div class="remed-carte">
       <div class="remed-prog-wrap">
@@ -298,15 +291,7 @@
     </div>
   </div>
 
-  <div class="ecran fond-vert cache" id="ecran-bravo">
-    <div class="carte anime">
-      <div class="badge" style="background:rgba(16,140,90,0.15);color:#0a6e3f;">Fiche terminée ✓</div>
-      <div class="titre">Excellent travail<br><span class="accent" id="prenom-bravo"></span> ! 🎉</div>
-      <div class="texte-intro">Tu as travaillé tous les points de cette fiche.<br>Ton enseignant a été informé de ta progression.</div>
-    </div>
-  </div>
-
-  <!-- ÉCRAN TRANSITION QUIZ FINAL -->
+  <!-- ÉCRAN 6 : TRANSITION QUIZ FINAL -->
   <div class="ecran fond-vert cache" id="ecran-transition-final">
     <div class="carte anime">
       <div class="badge">Vérification finale</div>
@@ -316,7 +301,7 @@
     </div>
   </div>
 
-  <!-- ÉCRAN QUIZ FINAL -->
+  <!-- ÉCRAN 7 : QUIZ FINAL -->
   <div class="ecran fond-vert cache" id="ecran-quiz-final">
     <div class="quiz-carte">
       <div class="prog-wrap">
@@ -329,7 +314,7 @@
     </div>
   </div>
 
-  <!-- ÉCRAN RÉSULTAT FINAL : RÉUSSI (+80%) -->
+  <!-- ÉCRAN 8A : QUIZ FINAL RÉUSSI -->
   <div class="ecran fond-vert cache" id="ecran-final-ok">
     <div class="carte anime">
       <div class="badge" style="background:rgba(16,140,90,0.15);color:#0a6e3f;">Notion maîtrisée ✓</div>
@@ -338,7 +323,7 @@
     </div>
   </div>
 
-  <!-- ÉCRAN RÉSULTAT FINAL : À REVOIR (-80%) -->
+  <!-- ÉCRAN 8B : QUIZ FINAL ÉCHOUÉ (< 3 tentatives) -->
   <div class="ecran fond-vert cache" id="ecran-final-revoir">
     <div class="carte anime">
       <div class="badge" style="background:rgba(200,50,50,0.12);color:#a83232;">À revoir</div>
@@ -348,20 +333,91 @@
     </div>
   </div>
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const nom    = params.get('nom')    || 'Élève';
-    const classe = params.get('classe') || '—';
-    const lycee  = params.get('lycee')  || '—';
-    document.getElementById('header-lycee').textContent  = lycee;
-    document.getElementById('header-classe').textContent = classe;
-    document.getElementById('header-nom').textContent    = nom;
-    document.getElementById('prenom-valide').textContent     = nom.split(' ')[0];
-    document.getElementById('prenom-score').textContent      = nom.split(' ')[0];
-    document.getElementById('prenom-bravo').textContent      = nom.split(' ')[0];
-    document.getElementById('prenom-final-ok').textContent   = nom.split(' ')[0];
-    document.getElementById('prenom-final-revoir').textContent = nom.split(' ')[0];
+  <!-- ÉCRAN 8C : BLOQUÉ (3 échecs) -->
+  <div class="ecran fond-vert cache" id="ecran-bloque">
+    <div class="carte anime">
+      <div class="badge" style="background:rgba(200,50,50,0.12);color:#a83232;">Aide en route 🙋</div>
+      <div class="titre">Ton prof va venir<br>t'aider <span class="accent" id="prenom-bloque"></span></div>
+      <div class="texte-intro">Tu as fait 3 tentatives.<br>Ton enseignant a été alerté et va passer te voir pour t'expliquer.<br><br>Pas de panique, c'est normal d'avoir besoin d'aide !</div>
+    </div>
+  </div>
 
+  <script>
+    // ── Config — remplacer par l'URL réelle de ton Apps Script ──
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxlBMjVXIg58lsopoeQ5sEZW-jcQIOrOtnWwCGVtHLGjcmpi9exaYZ3oAEre4deZum2/exec';
+    const FICHE_ID        = 'fractions_comprendre';
+    const THEME           = 'Fractions';
+    const NIVEAU          = '6ème';
+    const MAX_TENTATIVES  = 3;
+
+    // ── Paramètres URL ──────────────────────────────────────────
+    const params    = new URLSearchParams(window.location.search);
+    const nom       = params.get('nom')        || 'Élève';
+    const classe    = params.get('classe')     || '—';
+    const lycee     = params.get('lycee')      || '—';
+    const email     = params.get('email')      || '';
+    const prof      = params.get('prof')       || '';
+    const profEmail = params.get('prof_email') || '';
+
+    document.getElementById('header-lycee').textContent        = lycee;
+    document.getElementById('header-classe').textContent       = classe;
+    document.getElementById('header-nom').textContent          = nom;
+    document.getElementById('prenom-valide').textContent       = nom.split(' ')[0];
+    document.getElementById('prenom-score').textContent        = nom.split(' ')[0];
+    document.getElementById('prenom-final-ok').textContent     = nom.split(' ')[0];
+    document.getElementById('prenom-final-revoir').textContent = nom.split(' ')[0];
+    document.getElementById('prenom-bloque').textContent       = nom.split(' ')[0];
+
+    // ── État ────────────────────────────────────────────────────
+    let quizInitialDejaPasse = false;
+    let nbTentativesFinales  = 0;
+    let pointsRatesFinal     = {};
+
+    // ── Sauvegarde Apps Script ───────────────────────────────────
+    function sauvegarder(statut, score, tentativeNum, extra) {
+      if (!email) return;
+      const payload = Object.assign({
+        type: 'remediation', eleve_id: email, eleve_nom: nom,
+        classe, etablissement: lycee, fiche_id: FICHE_ID,
+        theme: THEME, niveau: NIVEAU, statut,
+        score_quiz: score, tentative_num: tentativeNum,
+        prof, prof_email: profEmail, alerte_traitee: 'non'
+      }, extra || {});
+      fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) }).catch(() => {});
+    }
+
+    // ── Vérifier progression au chargement ──────────────────────
+    async function verifierProgression() {
+      if (!email) return;
+      try {
+        const res  = await fetch(APPS_SCRIPT_URL + '?type=remediation&etablissement=' + encodeURIComponent(lycee));
+        const data = await res.json();
+        if (data.status !== 'ok') return;
+
+        const lignes = (data.data || []).filter(r => r.eleve_id === email && r.fiche_id === FICHE_ID);
+        if (!lignes.length) return;
+
+        const init = lignes.find(r => r.statut === 'quiz_initial');
+        if (init) {
+          quizInitialDejaPasse = true;
+          bonnesRep = Math.round((parseFloat(init.score_quiz) / 100) * QUESTIONS.length);
+        }
+
+        nbTentativesFinales = lignes.filter(r =>
+          ['quiz_final_echec','quiz_final_valide','echec_3_tentatives'].includes(r.statut)
+        ).length;
+
+        if (lignes.find(r => r.statut === 'echec_3_tentatives')) {
+          allerVers('ecran-accueil', 'ecran-bloque'); return;
+        }
+        if (lignes.find(r => r.statut === 'quiz_final_valide')) {
+          allerVers('ecran-accueil', 'ecran-valide'); return;
+        }
+      } catch(e) {}
+    }
+    verifierProgression();
+
+    // ── Fraction inline ──────────────────────────────────────────
     function fi(a, b, orange) {
       const col = orange ? '#d4820a' : 'var(--vert-bord)';
       return `<span class="fi" style="color:${col};font-size:0.85em;"><span>${a}</span><span class="fi-barre" style="background:${col};width:100%;min-width:18px;height:2px;display:block;margin:1px 0;"></span><span>${b}</span></span>`;
@@ -381,6 +437,15 @@
       { point:6, type:'choix', consigne:`${fi(2,5,false)} de 60 ça veut dire :`, choix:['2/5 × 60','2/5 ÷ 60','2/5 + 60','2/5 − 60'], bonne:'2/5 × 60' },
       { point:6, type:'choix', consigne:`${fi(1,2,false)} de 30 = ?`, choix:['15','60','30','10'], bonne:'15' },
     ];
+
+    const LABELS_POINTS = {
+      1: 'Numérateur et dénominateur',
+      2: 'Barre de fraction',
+      3: 'Comparer — même dénominateur',
+      4: 'Comparer — même numérateur',
+      5: 'Le numérateur face au dénominateur',
+      6: 'Multiplier ou diviser fractions égales'
+    };
 
     const POINTS = [
       { num:1, titre:'Numérateur et dénominateur', regleHTML:true,
@@ -490,38 +555,25 @@
     const TOTAL_QUIZ = 6;
     let qIndex = 0, bloque = false, bonnesRep = 0;
     let pointIndex = 0, exIndex = 0, bloqueR = false;
-    // Quiz final
     let qFinalIndex = 0, bloqueFinal = false, bonnesRepFinal = 0;
 
-    // ── Affiche le titre niveau style jeu vidéo ─────────────────
+    // ── Overlay titre niveau ─────────────────────────────────────
     function afficherNiveau(titre, num, total, callback) {
       const overlay = document.getElementById('overlay-niveau');
       const elTitre = document.getElementById('niveau-titre');
       const elSous  = document.getElementById('niveau-sous');
-
-      elTitre.textContent = titre;
-      elSous.textContent  = 'Point ' + num + ' / ' + total;
-
-      // Reset animations
-      elTitre.classList.remove('jouer');
-      elSous.classList.remove('jouer');
-      void elTitre.offsetWidth;
-
+      elTitre.textContent = titre; elSous.textContent = 'Point ' + num + ' / ' + total;
+      elTitre.classList.remove('jouer'); elSous.classList.remove('jouer'); void elTitre.offsetWidth;
       overlay.classList.add('actif');
-
-      requestAnimationFrame(() => {
-        elTitre.classList.add('jouer');
-        elSous.classList.add('jouer');
-      });
-
+      requestAnimationFrame(() => { elTitre.classList.add('jouer'); elSous.classList.add('jouer'); });
       setTimeout(() => {
         overlay.classList.remove('actif');
-        elTitre.classList.remove('jouer');
-        elSous.classList.remove('jouer');
+        elTitre.classList.remove('jouer'); elSous.classList.remove('jouer');
         if (callback) callback();
       }, 3700);
     }
 
+    // ── Transitions ──────────────────────────────────────────────
     function allerVers(a, b) {
       const d = document.getElementById(a), ar = document.getElementById(b);
       d.style.transition = 'opacity 0.5s ease'; d.style.opacity = '0';
@@ -541,8 +593,13 @@
       setTimeout(() => afficherNiveau(POINTS[0].titre, POINTS[0].num, POINTS.length, () => chargerPoint(0)), 700);
     }
 
+    // ── Quiz initial ─────────────────────────────────────────────
     function versFin() {
       const score = Math.round((bonnesRep / QUESTIONS.length) * 100);
+      if (!quizInitialDejaPasse) {
+        sauvegarder('quiz_initial', score, 0);
+        quizInitialDejaPasse = true;
+      }
       if (score >= 90) {
         allerVers('ecran-quiz','ecran-valide');
       } else {
@@ -581,26 +638,23 @@
       }
     }
 
+    // ── Remédiation ──────────────────────────────────────────────
     function chargerPoint(pi) {
       pointIndex = pi; exIndex = 0; bloqueR = false;
       const p = POINTS[pi];
       document.getElementById('remed-prog-badge').textContent = p.titre;
       document.getElementById('remed-prog-label').textContent = 'Point ' + p.num + ' / ' + POINTS.length;
       document.getElementById('remed-prog-fill').style.width  = (pi / POINTS.length * 100) + '%';
-
       const regleTexte = document.getElementById('regle-texte');
       const regleBloc  = regleTexte.closest('.regle-bloc');
       regleBloc.style.animation = 'none'; regleBloc.offsetHeight; regleBloc.style.animation = '';
-
       if (p.regleHTML) regleTexte.innerHTML  = p.regleContenu;
       else             regleTexte.textContent = p.regle;
-
       const ez = document.getElementById('remed-exercices');
       const btnW = document.getElementById('btn-compris-wrap');
       ez.classList.remove('visible'); ez.style.display = 'none';
       btnW.style.display = 'flex';
       btnW.style.animation = 'none'; btnW.offsetHeight; btnW.style.animation = '';
-
       document.getElementById('remed-feedback').className  = 'remed-feedback';
       document.getElementById('remed-feedback').textContent = '';
     }
@@ -608,8 +662,7 @@
     function afficherExercices() {
       const ez = document.getElementById('remed-exercices');
       const btnW = document.getElementById('btn-compris-wrap');
-      btnW.style.display = 'none';
-      ez.style.display = 'flex';
+      btnW.style.display = 'none'; ez.style.display = 'flex';
       chargerExercice(pointIndex, 0);
       setTimeout(() => ez.classList.add('visible'), 20);
     }
@@ -640,9 +693,7 @@
           const ez = document.getElementById('remed-exercices');
           ez.classList.remove('visible'); ez.style.display = 'none';
           const nextPi = pointIndex + 1;
-          setTimeout(() => {
-            afficherNiveau(POINTS[nextPi].titre, POINTS[nextPi].num, POINTS.length, () => chargerPoint(nextPi));
-          }, 300);
+          setTimeout(() => afficherNiveau(POINTS[nextPi].titre, POINTS[nextPi].num, POINTS.length, () => chargerPoint(nextPi)), 300);
         }
       } else {
         const z = document.getElementById('remed-zone');
@@ -654,7 +705,7 @@
     // ── Quiz final ───────────────────────────────────────────────
     function versQuizFinal() {
       allerVers('ecran-transition-final','ecran-quiz-final');
-      qFinalIndex = 0; bonnesRepFinal = 0; bloqueFinal = false;
+      qFinalIndex = 0; bonnesRepFinal = 0; bloqueFinal = false; pointsRatesFinal = {};
       setTimeout(() => chargerQuestionFinale(0), 600);
     }
 
@@ -671,17 +722,25 @@
 
     function repondreFinal(choix) {
       if (bloqueFinal) return; bloqueFinal = true;
-      const correct = evaluer(QUESTIONS[qFinalIndex], choix);
+      const q = QUESTIONS[qFinalIndex];
+      const correct = evaluer(q, choix);
       const fb = document.getElementById('feedback-final');
-      if (correct) { bonnesRepFinal++; fb.textContent = '✓ Bonne réponse !'; fb.className = 'feedback correct'; setTimeout(suiteFinal, 650); }
-      else { fb.textContent = '✗ Pas tout à fait !'; fb.className = 'feedback faux'; setTimeout(suiteFinal, 1100); }
+      if (correct) {
+        bonnesRepFinal++;
+        fb.textContent = '✓ Bonne réponse !'; fb.className = 'feedback correct';
+        setTimeout(suiteFinal, 650);
+      } else {
+        if (!pointsRatesFinal[q.point]) pointsRatesFinal[q.point] = 0;
+        pointsRatesFinal[q.point]++;
+        fb.textContent = '✗ Pas tout à fait !'; fb.className = 'feedback faux';
+        setTimeout(suiteFinal, 1100);
+      }
     }
 
     function suiteFinal() {
       qFinalIndex++;
-      if (qFinalIndex >= QUESTIONS.length) {
-        versFinalResultat();
-      } else {
+      if (qFinalIndex >= QUESTIONS.length) versFinalResultat();
+      else {
         const z = document.getElementById('zone-question-final');
         z.style.opacity = '0'; z.style.transition = 'opacity 0.3s';
         setTimeout(() => { chargerQuestionFinale(qFinalIndex); z.style.opacity = '1'; }, 300);
@@ -689,23 +748,36 @@
     }
 
     function versFinalResultat() {
-      const scoreFinal   = Math.round((bonnesRepFinal  / QUESTIONS.length) * 100);
-      const scoreInitial = Math.round((bonnesRep        / QUESTIONS.length) * 100);
-      const prenom       = nom.split(' ')[0];
+      const scoreFinal   = Math.round((bonnesRepFinal / QUESTIONS.length) * 100);
+      const scoreInitial = Math.round((bonnesRep       / QUESTIONS.length) * 100);
+      nbTentativesFinales++;
+
+      const pointsBloquants = Object.keys(pointsRatesFinal)
+        .map(p => LABELS_POINTS[p] || 'Point ' + p).join(', ');
 
       if (scoreFinal >= 80) {
+        sauvegarder('quiz_final_valide', scoreFinal, nbTentativesFinales);
         document.getElementById('texte-final-ok').innerHTML =
           'Tu es passé de <strong>' + scoreInitial + '%</strong> à <strong style="color:var(--vert-bord);">' + scoreFinal + '%</strong> de bonnes réponses.<br>C\'est une belle progression ! Ton enseignant a été informé.';
         allerVers('ecran-quiz-final','ecran-final-ok');
+
+      } else if (nbTentativesFinales >= MAX_TENTATIVES) {
+        sauvegarder('echec_3_tentatives', scoreFinal, nbTentativesFinales, {
+          prof_email: profEmail, points_bloques: pointsBloquants
+        });
+        allerVers('ecran-quiz-final','ecran-bloque');
+
       } else {
+        sauvegarder('quiz_final_echec', scoreFinal, nbTentativesFinales);
+        const restantes = MAX_TENTATIVES - nbTentativesFinales;
         document.getElementById('texte-final-revoir').innerHTML =
-          'Tu as eu <strong>' + bonnesRepFinal + ' / ' + QUESTIONS.length + ' bonnes réponses</strong> (' + scoreFinal + '%).<br>Relis le cours et réessaie, tu vas y arriver !';
+          'Tu as eu <strong>' + bonnesRepFinal + ' / ' + QUESTIONS.length + ' bonnes réponses</strong> (' + scoreFinal + '%).<br>' +
+          'Il te reste <strong>' + restantes + ' tentative' + (restantes > 1 ? 's' : '') + '</strong> avant que ton prof soit alerté.<br>Relis le cours, tu vas y arriver !';
         allerVers('ecran-quiz-final','ecran-final-revoir');
       }
     }
 
     function revenirFiche() {
-      // Repart au début de la remédiation
       allerVers('ecran-final-revoir','ecran-fiche');
       setTimeout(() => afficherNiveau(POINTS[0].titre, POINTS[0].num, POINTS.length, () => chargerPoint(0)), 700);
     }
