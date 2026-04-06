@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fiche remédiation · 1 — Comprendre les fractions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=OpenDyslexic:wght@400;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -20,6 +22,38 @@
       --badge-texte: #0a6e3f;
     }
 
+    /* ══ MODE DYS ══════════════════════════════════════════════ */
+    body.dys {
+      font-family: 'OpenDyslexic', Arial, sans-serif !important;
+    }
+    body.dys .titre,
+    body.dys .texte-intro,
+    body.dys .consigne,
+    body.dys .remed-consigne,
+    body.dys .regle-texte,
+    body.dys .choix-btn,
+    body.dys .btn,
+    body.dys .btn-compris,
+    body.dys .frac-nombre,
+    body.dys .fn,
+    body.dys .feedback,
+    body.dys .remed-feedback {
+      font-family: 'OpenDyslexic', Arial, sans-serif !important;
+      line-height: 1.9 !important;
+    }
+    body.dys .consigne       { font-size: 22px !important; }
+    body.dys .remed-consigne { font-size: 21px !important; }
+    body.dys .texte-intro    { font-size: 20px !important; }
+    body.dys .regle-texte    { font-size: 17px !important; }
+    body.dys .choix-btn      { font-size: 20px !important; padding: 18px 34px !important; min-width: 140px !important; }
+    body.dys .choix-wrap     { gap: 16px !important; }
+    body.dys .frac-bloc,
+    body.dys .frac-bloc-r    { padding: 22px 40px !important; }
+    body.dys .carte,
+    body.dys .quiz-carte,
+    body.dys .remed-carte    { background: rgba(255,253,240,0.82) !important; }
+
+    /* ══ ANIMATIONS ════════════════════════════════════════════ */
     @keyframes gradientWave {
       0%   { background-position: 0% 50%; }
       50%  { background-position: 100% 50%; }
@@ -46,6 +80,7 @@
       100% { opacity: 0; transform: scale(1.06); }
     }
 
+    /* ══ OVERLAY NIVEAU ════════════════════════════════════════ */
     .overlay-niveau {
       position: fixed; inset: 0; z-index: 999;
       background: #fdf6ec;
@@ -55,22 +90,16 @@
       transition: opacity 0.25s ease;
     }
     .overlay-niveau.actif { opacity: 1; }
-    .niveau-titre {
-      font-family: Arial, sans-serif;
-      font-size: clamp(30px, 6vw, 50px); font-weight: 700;
-      color: #d4820a; text-align: center; opacity: 0;
-    }
+    .niveau-titre { font-family: Arial, sans-serif; font-size: clamp(30px,6vw,50px); font-weight: 700; color: #d4820a; text-align: center; opacity: 0; }
     .niveau-titre.jouer { animation: niveauApparition 3.5s cubic-bezier(.22,1,.36,1) forwards; }
-    .niveau-sous {
-      font-family: Arial, sans-serif;
-      font-size: clamp(13px, 2vw, 17px); font-weight: 600;
-      color: #b06a20; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0;
-    }
+    .niveau-sous { font-family: Arial, sans-serif; font-size: clamp(13px,2vw,17px); font-weight: 600; color: #b06a20; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0; }
     .niveau-sous.jouer { animation: niveauApparition 3.5s 0.1s cubic-bezier(.22,1,.36,1) forwards; }
 
+    /* ══ BASE ══════════════════════════════════════════════════ */
     html, body { height: 100%; }
     body { min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: Arial, sans-serif; }
 
+    /* ══ HEADER ════════════════════════════════════════════════ */
     .header {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: center;
@@ -84,26 +113,39 @@
     .header-sep   { color: var(--vert-fort); font-weight: 700; }
     .header-nom   { font-weight: 700; color: var(--vert-bord); }
 
+    /* Bouton DYS dans le header */
+    .header-dys {
+      position: absolute; right: 20px;
+      display: flex; align-items: center; gap: 8px;
+      cursor: pointer; padding: 6px 14px; border-radius: 999px;
+      border: 1.5px solid rgba(10,110,63,0.2); background: transparent;
+      font-family: Arial, sans-serif; transition: all 0.2s;
+    }
+    .header-dys:hover { background: rgba(10,110,63,0.07); border-color: var(--vert-bord); }
+    .dys-dot {
+      width: 30px; height: 17px; border-radius: 999px;
+      background: #ccc; position: relative; flex-shrink: 0;
+      transition: background 0.3s;
+    }
+    .dys-dot::after {
+      content: ''; position: absolute; top: 2.5px; left: 2.5px;
+      width: 12px; height: 12px; border-radius: 50%; background: #fff;
+      transition: transform 0.3s cubic-bezier(.22,1,.36,1);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .header-dys.on .dys-dot { background: var(--vert-fort); }
+    .header-dys.on .dys-dot::after { transform: translateX(13px); }
+    .dys-lbl { font-size: 11px; font-weight: 700; color: var(--texte-fonce); letter-spacing: 0.04em; }
+
+    /* ══ ÉCRANS ════════════════════════════════════════════════ */
     .ecran { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 100vh; padding-top: 70px; }
     .ecran.cache { display: none; }
 
-    .fond-vert {
-      background: linear-gradient(135deg, var(--vert-clair), var(--vert-pale), var(--vert-moyen), var(--vert-pale), var(--vert-doux));
-      background-size: 400% 400%; animation: gradientWave 8s ease infinite;
-    }
-    .fond-chaud {
-      background: linear-gradient(135deg, #fdf6ec, #fef9f0, #fcebd8, #fef5e7, #fdf0e0);
-      background-size: 400% 400%; animation: gradientWave 8s ease infinite;
-    }
+    .fond-vert  { background: linear-gradient(135deg,var(--vert-clair),var(--vert-pale),var(--vert-moyen),var(--vert-pale),var(--vert-doux)); background-size: 400% 400%; animation: gradientWave 8s ease infinite; }
+    .fond-chaud { background: linear-gradient(135deg,#fdf6ec,#fef9f0,#fcebd8,#fef5e7,#fdf0e0); background-size: 400% 400%; animation: gradientWave 8s ease infinite; }
 
-    .carte {
-      background: rgba(255,255,255,0.62);
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.85);
-      border-radius: 28px; padding: 56px 64px 52px;
-      display: flex; flex-direction: column; align-items: center; gap: 14px;
-      max-width: 480px; width: 90%;
-    }
+    /* ══ CARTES ════════════════════════════════════════════════ */
+    .carte { background: rgba(255,255,255,0.62); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.85); border-radius: 28px; padding: 56px 64px 52px; display: flex; flex-direction: column; align-items: center; gap: 14px; max-width: 480px; width: 90%; }
     .carte.anime { animation: fadeUp 0.8s cubic-bezier(.22,1,.36,1) both; }
 
     .badge { font-size: 11px; font-weight: 700; color: var(--badge-texte); background: var(--badge-bg); padding: 5px 18px; border-radius: 999px; letter-spacing: 0.07em; text-transform: uppercase; }
@@ -112,24 +154,38 @@
     .texte-intro { font-size: 18px; font-weight: 400; color: var(--texte-fonce); text-align: center; line-height: 1.6; max-width: 340px; }
     .texte-intro strong { color: var(--vert-bord); font-weight: 700; }
 
-    .btn {
-      margin-top: 22px; padding: 15px 54px; border-radius: 999px;
-      border: 2.5px solid var(--vert-bord); background: transparent;
-      font-size: 16px; font-weight: 700; cursor: pointer; letter-spacing: 0.04em; color: var(--vert-bord);
-      animation: btnGlow 2.2s ease-in-out infinite;
-      transition: background 0.2s, color 0.2s, transform 0.15s;
+    /* Bouton DYS sur l'écran accueil */
+    .accueil-dys {
+      margin-top: 6px; display: flex; align-items: center; gap: 10px;
+      cursor: pointer; padding: 8px 18px; border-radius: 999px;
+      border: 1.5px solid rgba(10,110,63,0.2); background: transparent;
+      font-family: Arial, sans-serif; transition: all 0.2s;
     }
+    .accueil-dys:hover { background: rgba(10,110,63,0.06); }
+    .accueil-dys-dot {
+      width: 34px; height: 19px; border-radius: 999px;
+      background: #ccc; position: relative; flex-shrink: 0;
+      transition: background 0.3s;
+    }
+    .accueil-dys-dot::after {
+      content: ''; position: absolute; top: 2.5px; left: 2.5px;
+      width: 14px; height: 14px; border-radius: 50%; background: #fff;
+      transition: transform 0.3s cubic-bezier(.22,1,.36,1);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .accueil-dys.on .accueil-dys-dot { background: var(--vert-fort); }
+    .accueil-dys.on .accueil-dys-dot::after { transform: translateX(15px); }
+    .accueil-dys-texte { text-align: left; }
+    .accueil-dys-lbl { font-size: 12px; font-weight: 700; color: var(--texte-fonce); display: block; }
+    .accueil-dys-sub  { font-size: 10px; color: #6b7c6b; display: block; margin-top: 1px; }
+
+    /* ══ BOUTON PRINCIPAL ══════════════════════════════════════ */
+    .btn { margin-top: 22px; padding: 15px 54px; border-radius: 999px; border: 2.5px solid var(--vert-bord); background: transparent; font-size: 16px; font-weight: 700; cursor: pointer; letter-spacing: 0.04em; color: var(--vert-bord); animation: btnGlow 2.2s ease-in-out infinite; transition: background 0.2s, color 0.2s, transform 0.15s; font-family: inherit; }
     .btn:hover { background: var(--vert-bord); color: #fff; transform: scale(1.05); }
     .btn:active { transform: scale(0.97); }
 
-    .quiz-carte {
-      background: rgba(255,255,255,0.62);
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.85);
-      border-radius: 28px; padding: 40px 48px 44px;
-      display: flex; flex-direction: column; align-items: center; gap: 20px;
-      max-width: 560px; width: 92%;
-    }
+    /* ══ QUIZ ══════════════════════════════════════════════════ */
+    .quiz-carte { background: rgba(255,255,255,0.62); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.85); border-radius: 28px; padding: 40px 48px 44px; display: flex; flex-direction: column; align-items: center; gap: 20px; max-width: 560px; width: 92%; }
 
     .prog-wrap { width: 100%; }
     .prog-label { font-size: 12px; font-weight: 700; color: var(--vert-bord); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; text-align: center; }
@@ -139,6 +195,12 @@
     .consigne { font-size: 20px; font-weight: 500; color: var(--texte-fonce); text-align: center; line-height: 1.8; }
     .consigne .mot-cle { color: var(--vert-bord); font-weight: 700; }
 
+    .feedback { font-size: 15px; font-weight: 700; padding: 10px 24px; border-radius: 12px; min-height: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; opacity: 0; transition: opacity 0.3s; text-align: center; }
+    .feedback.correct { background: rgba(16,140,90,0.15); color: var(--vert-bord); opacity: 1; }
+    .feedback.faux    { background: rgba(200,50,50,0.12);  color: #a83232; opacity: 1; }
+    .feedback-bonne   { font-size: 13px; font-weight: 500; color: #0a6e3f; margin-top: 2px; }
+
+    /* ══ FRACTIONS ═════════════════════════════════════════════ */
     .fi { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; margin: 0 4px; font-weight: 700; line-height: 1.1; }
     .fi-barre { width: 100%; min-width: 16px; height: 2px; display: block; margin: 1px 0; }
 
@@ -148,7 +210,7 @@
     .frac-barre { width: 100px; height: 4px; background: var(--texte-fonce); border-radius: 2px; }
 
     .choix-wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; width: 100%; }
-    .choix-btn { padding: 14px 28px; border-radius: 16px; border: 2px solid rgba(10,110,63,0.25); background: rgba(255,255,255,0.6); font-size: 18px; font-weight: 600; color: var(--texte-fonce); cursor: pointer; transition: background 0.18s, border-color 0.18s, transform 0.15s; min-width: 120px; text-align: center; }
+    .choix-btn { padding: 14px 28px; border-radius: 16px; border: 2px solid rgba(10,110,63,0.25); background: rgba(255,255,255,0.6); font-size: 18px; font-weight: 600; color: var(--texte-fonce); cursor: pointer; transition: background 0.18s, border-color 0.18s, transform 0.15s; min-width: 120px; text-align: center; font-family: inherit; }
     .choix-btn:hover { background: rgba(16,140,90,0.1); border-color: var(--vert-fort); transform: scale(1.04); }
 
     .fractions-comparaison { display: flex; align-items: center; gap: 32px; flex-wrap: wrap; justify-content: center; }
@@ -162,10 +224,7 @@
     .frac-bloc-r .fn { font-size: 48px; font-weight: 700; color: #3d2000; line-height: 1; }
     .frac-bloc-r .fb { width: 60px; height: 3px; background: #3d2000; border-radius: 2px; }
 
-    .feedback { font-size: 15px; font-weight: 700; padding: 10px 24px; border-radius: 999px; min-height: 40px; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
-    .feedback.correct { background: rgba(16,140,90,0.15); color: var(--vert-bord); opacity: 1; }
-    .feedback.faux    { background: rgba(200,50,50,0.12);  color: #a83232;          opacity: 1; }
-
+    /* ══ REMÉDIATION ═══════════════════════════════════════════ */
     .remed-carte { background: rgba(255,255,255,0.70); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.9); border-radius: 28px; padding: 40px 52px 48px; display: flex; flex-direction: column; align-items: center; gap: 0; max-width: 600px; width: 92%; }
     .remed-prog-wrap { width: 100%; margin-bottom: 24px; }
     .remed-prog-header { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 10px; }
@@ -179,7 +238,7 @@
     .regle-texte { font-size: 15px; font-weight: 500; color: #3d2000; line-height: 1.6; }
 
     .btn-compris-wrap { width: 100%; display: flex; justify-content: center; margin: 20px 0 28px; animation: regleFadeIn 0.6s 0.3s cubic-bezier(.22,1,.36,1) both; }
-    .btn-compris { padding: 12px 44px; border-radius: 999px; border: 2.5px solid #d4820a; background: transparent; font-size: 15px; font-weight: 700; cursor: pointer; letter-spacing: 0.04em; color: #d4820a; transition: background 0.2s, color 0.2s, transform 0.15s; }
+    .btn-compris { padding: 12px 44px; border-radius: 999px; border: 2.5px solid #d4820a; background: transparent; font-size: 15px; font-weight: 700; cursor: pointer; letter-spacing: 0.04em; color: #d4820a; transition: background 0.2s, color 0.2s, transform 0.15s; font-family: inherit; }
     .btn-compris:hover { background: #d4820a; color: #fff; transform: scale(1.04); }
     .btn-compris:active { transform: scale(0.97); }
 
@@ -189,7 +248,7 @@
     .remed-consigne { font-size: 19px; font-weight: 500; color: #3d2000; text-align: center; line-height: 1.8; }
     .remed-consigne .mot-cle { color: #d4820a; font-weight: 700; }
 
-    .remed-feedback { font-size: 15px; font-weight: 700; padding: 10px 24px; border-radius: 999px; min-height: 40px; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+    .remed-feedback { font-size: 15px; font-weight: 700; padding: 10px 24px; border-radius: 12px; min-height: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; opacity: 0; transition: opacity 0.3s; text-align: center; }
     .remed-feedback.correct { background: rgba(16,140,90,0.15); color: #0a6e3f; opacity: 1; }
     .remed-feedback.faux    { background: rgba(200,50,50,0.12);  color: #a83232; opacity: 1; }
   </style>
@@ -202,6 +261,7 @@
     <div class="niveau-sous"  id="niveau-sous">Point 1 / 7</div>
   </div>
 
+  <!-- HEADER -->
   <div class="header">
     <div class="header-ligne">
       <span id="header-lycee">—</span>
@@ -210,6 +270,10 @@
       <span class="header-sep">·</span>
       <span class="header-nom" id="header-nom">—</span>
     </div>
+    <button class="header-dys" id="header-dys" onclick="basculerDYS()">
+      <div class="dys-dot"></div>
+      <span class="dys-lbl">DYS</span>
+    </button>
   </div>
 
   <!-- ÉCRAN 0 : CHARGEMENT -->
@@ -227,6 +291,13 @@
       <div class="badge">Fiche remédiation · 1</div>
       <div class="titre">Comprendre les<br><span class="accent">fractions</span></div>
       <button class="btn" onclick="versIntro()">Commencer</button>
+      <button class="accueil-dys" id="accueil-dys" onclick="basculerDYS()">
+        <div class="accueil-dys-dot"></div>
+        <div class="accueil-dys-texte">
+          <span class="accueil-dys-lbl">Mode DYS</span>
+          <span class="accueil-dys-sub">Police et espacement adaptés</span>
+        </div>
+      </button>
     </div>
   </div>
 
@@ -256,7 +327,7 @@
     </div>
   </div>
 
-  <!-- ÉCRAN 4A : VALIDÉ DÈS LE QUIZ INITIAL -->
+  <!-- ÉCRAN 4A : VALIDÉ -->
   <div class="ecran fond-vert cache" id="ecran-valide">
     <div class="carte anime">
       <div class="badge" style="background:rgba(16,140,90,0.15);color:#0a6e3f;">Notion validée ✓</div>
@@ -265,7 +336,7 @@
     </div>
   </div>
 
-  <!-- ÉCRAN 4B : SCORE + LANCEMENT FICHE -->
+  <!-- ÉCRAN 4B : SCORE -->
   <div class="ecran fond-vert cache" id="ecran-score">
     <div class="carte anime">
       <div class="badge" style="background:rgba(200,100,50,0.12);color:#a85a20;">Quiz terminé</div>
@@ -300,7 +371,7 @@
     </div>
   </div>
 
-  <!-- ÉCRAN 6 : TRANSITION QUIZ FINAL -->
+  <!-- ÉCRAN 6 : TRANSITION FINAL -->
   <div class="ecran fond-vert cache" id="ecran-transition-final">
     <div class="carte anime">
       <div class="badge">Vérification finale</div>
@@ -323,7 +394,7 @@
     </div>
   </div>
 
-  <!-- ÉCRAN 8A : QUIZ FINAL RÉUSSI -->
+  <!-- ÉCRAN 8A : RÉUSSI -->
   <div class="ecran fond-vert cache" id="ecran-final-ok">
     <div class="carte anime">
       <div class="badge" style="background:rgba(16,140,90,0.15);color:#0a6e3f;">Notion maîtrisée ✓</div>
@@ -332,7 +403,7 @@
     </div>
   </div>
 
-  <!-- ÉCRAN 8B : QUIZ FINAL ÉCHOUÉ (< 3 tentatives) -->
+  <!-- ÉCRAN 8B : À REVOIR -->
   <div class="ecran fond-vert cache" id="ecran-final-revoir">
     <div class="carte anime">
       <div class="badge" style="background:rgba(200,50,50,0.12);color:#a83232;">À revoir</div>
@@ -342,7 +413,7 @@
     </div>
   </div>
 
-  <!-- ÉCRAN 8C : BLOQUÉ (3 échecs) -->
+  <!-- ÉCRAN 8C : BLOQUÉ -->
   <div class="ecran fond-vert cache" id="ecran-bloque">
     <div class="carte anime">
       <div class="badge" style="background:rgba(200,50,50,0.12);color:#a83232;">Aide en route 🙋</div>
@@ -352,7 +423,7 @@
   </div>
 
   <script>
-    // ── Config — remplacer par l'URL réelle de ton Apps Script ──
+    // ── Config ──────────────────────────────────────────────────
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxlBMjVXIg58lsopoeQ5sEZW-jcQIOrOtnWwCGVtHLGjcmpi9exaYZ3oAEre4deZum2/exec';
     const FICHE_ID        = 'fractions_comprendre';
     const THEME           = 'Fractions';
@@ -377,10 +448,30 @@
     document.getElementById('prenom-final-revoir').textContent = nom.split(' ')[0];
     document.getElementById('prenom-bloque').textContent       = nom.split(' ')[0];
 
-    // ── État ────────────────────────────────────────────────────
+    // ── État global ─────────────────────────────────────────────
     let quizInitialDejaPasse = false;
     let nbTentativesFinales  = 0;
     let pointsRatesFinal     = {};
+    let dysActif             = false;
+
+    // Timings adaptatifs selon mode DYS
+    const TOK = () => dysActif ? 1500 : 650;
+    const TKO = () => dysActif ? 2000 : 1100;
+
+    // ── Mode DYS ────────────────────────────────────────────────
+    function basculerDYS() {
+      dysActif = !dysActif;
+      document.body.style.transition = 'opacity 0.2s';
+      document.body.style.opacity    = '0';
+      setTimeout(() => {
+        document.body.classList.toggle('dys', dysActif);
+        ['header-dys','accueil-dys'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.classList.toggle('on', dysActif);
+        });
+        document.body.style.opacity = '1';
+      }, 200);
+    }
 
     // ── Sauvegarde Apps Script ───────────────────────────────────
     function sauvegarder(statut, score, tentativeNum, extra) {
@@ -395,27 +486,16 @@
       fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) }).catch(() => {});
     }
 
-    // ── Vérifier progression au chargement ──────────────────────
+    // ── Vérification progression au chargement ───────────────────
     async function verifierProgression() {
-      // Si pas d'email, on affiche directement l'accueil
-      if (!email) {
-        allerVers('ecran-chargement', 'ecran-accueil');
-        return;
-      }
+      if (!email) { allerVers('ecran-chargement','ecran-accueil'); return; }
       try {
         const res  = await fetch(APPS_SCRIPT_URL + '?type=remediation&etablissement=' + encodeURIComponent(lycee));
         const data = await res.json();
-        if (data.status !== 'ok') {
-          allerVers('ecran-chargement', 'ecran-accueil');
-          return;
-        }
+        if (data.status !== 'ok') { allerVers('ecran-chargement','ecran-accueil'); return; }
 
         const lignes = (data.data || []).filter(r => r.eleve_id === email && r.fiche_id === FICHE_ID);
-
-        if (!lignes.length) {
-          allerVers('ecran-chargement', 'ecran-accueil');
-          return;
-        }
+        if (!lignes.length) { allerVers('ecran-chargement','ecran-accueil'); return; }
 
         const init = lignes.find(r => r.statut === 'quiz_initial');
         if (init) {
@@ -427,33 +507,33 @@
           ['quiz_final_echec','quiz_final_valide','echec_3_tentatives'].includes(r.statut)
         ).length;
 
-        if (lignes.find(r => r.statut === 'echec_3_tentatives')) {
-          allerVers('ecran-chargement', 'ecran-bloque'); return;
-        }
-        if (lignes.find(r => r.statut === 'quiz_final_valide')) {
-          allerVers('ecran-chargement', 'ecran-valide'); return;
-        }
+        if (lignes.find(r => r.statut === 'echec_3_tentatives'))  { allerVers('ecran-chargement','ecran-bloque');  return; }
+        if (lignes.find(r => r.statut === 'quiz_final_valide'))   { allerVers('ecran-chargement','ecran-valide');  return; }
         if (init) {
-          // Quiz initial déjà passé → aller directement à la remédiation
-          allerVers('ecran-chargement', 'ecran-score');
           document.getElementById('score-texte').innerHTML =
             'Tu avais eu <strong>' + bonnesRep + ' / ' + QUESTIONS.length + ' bonnes réponses</strong>.<br>Continue la fiche là où tu t\'étais arrêté.';
-          return;
+          allerVers('ecran-chargement','ecran-score'); return;
         }
-        allerVers('ecran-chargement', 'ecran-accueil');
-
-      } catch(e) {
-        allerVers('ecran-chargement', 'ecran-accueil');
-      }
+        allerVers('ecran-chargement','ecran-accueil');
+      } catch(e) { allerVers('ecran-chargement','ecran-accueil'); }
     }
     verifierProgression();
 
-    // ── Fraction inline ──────────────────────────────────────────
+    // ── Helper fraction inline ───────────────────────────────────
     function fi(a, b, orange) {
       const col = orange ? '#d4820a' : 'var(--vert-bord)';
       return `<span class="fi" style="color:${col};font-size:0.85em;"><span>${a}</span><span class="fi-barre" style="background:${col};width:100%;min-width:18px;height:2px;display:block;margin:1px 0;"></span><span>${b}</span></span>`;
     }
 
+    // ── Helper bonne réponse lisible (pour mode DYS) ─────────────
+    function bonneReponseTexte(q) {
+      if (q.type === 'choix')         return q.bonne;
+      if (q.type === 'fraction-clic') return q.cible === 'num' ? 'le numérateur (en haut)' : 'le dénominateur (en bas)';
+      if (q.type === 'comparaison')   { const f = q.fractions[q.bonne]; return f.num + '/' + f.den; }
+      return '';
+    }
+
+    // ── Données pédagogiques ─────────────────────────────────────
     const QUESTIONS = [
       { point:1, type:'fraction-clic', consigne:'Clique sur le <span class="mot-cle">numérateur</span>', num:3, den:4, cible:'num' },
       { point:1, type:'fraction-clic', consigne:'Clique sur le <span class="mot-cle">dénominateur</span>', num:7, den:9, cible:'den' },
@@ -470,12 +550,9 @@
     ];
 
     const LABELS_POINTS = {
-      1: 'Numérateur et dénominateur',
-      2: 'Barre de fraction',
-      3: 'Comparer — même dénominateur',
-      4: 'Comparer — même numérateur',
-      5: 'Le numérateur face au dénominateur',
-      6: 'Multiplier ou diviser fractions égales'
+      1:'Numérateur et dénominateur', 2:'Barre de fraction',
+      3:'Comparer — même dénominateur', 4:'Comparer — même numérateur',
+      5:'Le numérateur face au dénominateur', 6:'Multiplier ou diviser fractions égales'
     };
 
     const POINTS = [
@@ -627,10 +704,7 @@
     // ── Quiz initial ─────────────────────────────────────────────
     function versFin() {
       const score = Math.round((bonnesRep / QUESTIONS.length) * 100);
-      if (!quizInitialDejaPasse) {
-        sauvegarder('quiz_initial', score, 0);
-        quizInitialDejaPasse = true;
-      }
+      if (!quizInitialDejaPasse) { sauvegarder('quiz_initial', score, 0); quizInitialDejaPasse = true; }
       if (score >= 90) {
         allerVers('ecran-quiz','ecran-valide');
       } else {
@@ -644,19 +718,33 @@
       bloque = false;
       const q = QUESTIONS[i];
       document.getElementById('prog-label').textContent = 'Point ' + q.point + ' / ' + TOTAL_QUIZ;
-      document.getElementById('prog-fill').style.width  = ((q.point - 1) / TOTAL_QUIZ * 100) + '%';
+      document.getElementById('prog-fill').style.width  = ((q.point-1) / TOTAL_QUIZ * 100) + '%';
       document.getElementById('consigne').innerHTML     = q.consigne;
       document.getElementById('feedback').className     = 'feedback';
-      document.getElementById('feedback').textContent   = '';
+      document.getElementById('feedback').innerHTML     = '';
       afficherZone('zone-question', q, 'repondre', false);
+    }
+
+    function afficherFeedback(el, correct, q) {
+      if (correct) {
+        el.innerHTML = '✓ Bonne réponse !';
+        el.className = el.className.replace('remed-feedback','').trim() + (el.id.includes('remed') ? ' remed-feedback' : ' feedback') + ' correct';
+      } else {
+        const bonne = dysActif ? '<br><span style="font-size:13px;font-weight:500;">Bonne réponse : <strong>' + bonneReponseTexte(q) + '</strong></span>' : '';
+        el.innerHTML = '✗ Pas tout à fait !' + bonne;
+        el.className = el.className.replace('remed-feedback','').trim() + (el.id.includes('remed') ? ' remed-feedback' : ' feedback') + ' faux';
+      }
+      el.style.opacity = '1';
     }
 
     function repondre(choix) {
       if (bloque) return; bloque = true;
-      const correct = evaluer(QUESTIONS[qIndex], choix);
+      const q = QUESTIONS[qIndex];
+      const correct = evaluer(q, choix);
       const fb = document.getElementById('feedback');
-      if (correct) { bonnesRep++; fb.textContent = '✓ Bonne réponse !'; fb.className = 'feedback correct'; setTimeout(suite, 650); }
-      else { fb.textContent = '✗ Pas tout à fait, continue !'; fb.className = 'feedback faux'; setTimeout(suite, 1100); }
+      if (correct) bonnesRep++;
+      afficherFeedback(fb, correct, q);
+      setTimeout(suite, correct ? TOK() : TKO());
     }
 
     function suite() {
@@ -681,13 +769,13 @@
       regleBloc.style.animation = 'none'; regleBloc.offsetHeight; regleBloc.style.animation = '';
       if (p.regleHTML) regleTexte.innerHTML  = p.regleContenu;
       else             regleTexte.textContent = p.regle;
-      const ez = document.getElementById('remed-exercices');
+      const ez   = document.getElementById('remed-exercices');
       const btnW = document.getElementById('btn-compris-wrap');
       ez.classList.remove('visible'); ez.style.display = 'none';
       btnW.style.display = 'flex';
       btnW.style.animation = 'none'; btnW.offsetHeight; btnW.style.animation = '';
-      document.getElementById('remed-feedback').className  = 'remed-feedback';
-      document.getElementById('remed-feedback').textContent = '';
+      document.getElementById('remed-feedback').className = 'remed-feedback';
+      document.getElementById('remed-feedback').innerHTML = '';
     }
 
     function afficherExercices() {
@@ -701,18 +789,19 @@
     function chargerExercice(pi, ei) {
       bloqueR = false;
       const ex = POINTS[pi].exercices[ei];
-      document.getElementById('remed-consigne').innerHTML    = ex.consigne;
-      document.getElementById('remed-feedback').className   = 'remed-feedback';
-      document.getElementById('remed-feedback').textContent = '';
+      document.getElementById('remed-consigne').innerHTML  = ex.consigne;
+      document.getElementById('remed-feedback').className = 'remed-feedback';
+      document.getElementById('remed-feedback').innerHTML = '';
       afficherZone('remed-zone', ex, 'repRemed', true);
     }
 
     function repRemed(choix) {
       if (bloqueR) return; bloqueR = true;
-      const correct = evaluer(POINTS[pointIndex].exercices[exIndex], choix);
+      const ex = POINTS[pointIndex].exercices[exIndex];
+      const correct = evaluer(ex, choix);
       const fb = document.getElementById('remed-feedback');
-      if (correct) { fb.textContent = '✓ Bonne réponse !'; fb.className = 'remed-feedback correct'; setTimeout(suiteRemed, 650); }
-      else { fb.textContent = '✗ Pas tout à fait !'; fb.className = 'remed-feedback faux'; setTimeout(suiteRemed, 1100); }
+      afficherFeedback(fb, correct, ex);
+      setTimeout(suiteRemed, correct ? TOK() : TKO());
     }
 
     function suiteRemed() {
@@ -744,10 +833,10 @@
       bloqueFinal = false;
       const q = QUESTIONS[i];
       document.getElementById('prog-label-final').textContent = 'Point ' + q.point + ' / ' + TOTAL_QUIZ;
-      document.getElementById('prog-fill-final').style.width  = ((q.point - 1) / TOTAL_QUIZ * 100) + '%';
+      document.getElementById('prog-fill-final').style.width  = ((q.point-1) / TOTAL_QUIZ * 100) + '%';
       document.getElementById('consigne-final').innerHTML     = q.consigne;
       document.getElementById('feedback-final').className     = 'feedback';
-      document.getElementById('feedback-final').textContent   = '';
+      document.getElementById('feedback-final').innerHTML     = '';
       afficherZone('zone-question-final', q, 'repondreFinal', false);
     }
 
@@ -756,16 +845,10 @@
       const q = QUESTIONS[qFinalIndex];
       const correct = evaluer(q, choix);
       const fb = document.getElementById('feedback-final');
-      if (correct) {
-        bonnesRepFinal++;
-        fb.textContent = '✓ Bonne réponse !'; fb.className = 'feedback correct';
-        setTimeout(suiteFinal, 650);
-      } else {
-        if (!pointsRatesFinal[q.point]) pointsRatesFinal[q.point] = 0;
-        pointsRatesFinal[q.point]++;
-        fb.textContent = '✗ Pas tout à fait !'; fb.className = 'feedback faux';
-        setTimeout(suiteFinal, 1100);
-      }
+      if (correct) { bonnesRepFinal++; }
+      else { if (!pointsRatesFinal[q.point]) pointsRatesFinal[q.point] = 0; pointsRatesFinal[q.point]++; }
+      afficherFeedback(fb, correct, q);
+      setTimeout(suiteFinal, correct ? TOK() : TKO());
     }
 
     function suiteFinal() {
@@ -782,22 +865,16 @@
       const scoreFinal   = Math.round((bonnesRepFinal / QUESTIONS.length) * 100);
       const scoreInitial = Math.round((bonnesRep       / QUESTIONS.length) * 100);
       nbTentativesFinales++;
-
-      const pointsBloquants = Object.keys(pointsRatesFinal)
-        .map(p => LABELS_POINTS[p] || 'Point ' + p).join(', ');
+      const pointsBloquants = Object.keys(pointsRatesFinal).map(p => LABELS_POINTS[p] || 'Point ' + p).join(', ');
 
       if (scoreFinal >= 80) {
         sauvegarder('quiz_final_valide', scoreFinal, nbTentativesFinales);
         document.getElementById('texte-final-ok').innerHTML =
           'Tu es passé de <strong>' + scoreInitial + '%</strong> à <strong style="color:var(--vert-bord);">' + scoreFinal + '%</strong> de bonnes réponses.<br>C\'est une belle progression ! Ton enseignant a été informé.';
         allerVers('ecran-quiz-final','ecran-final-ok');
-
       } else if (nbTentativesFinales >= MAX_TENTATIVES) {
-        sauvegarder('echec_3_tentatives', scoreFinal, nbTentativesFinales, {
-          prof_email: profEmail, points_bloques: pointsBloquants
-        });
+        sauvegarder('echec_3_tentatives', scoreFinal, nbTentativesFinales, { prof_email: profEmail, points_bloques: pointsBloquants });
         allerVers('ecran-quiz-final','ecran-bloque');
-
       } else {
         sauvegarder('quiz_final_echec', scoreFinal, nbTentativesFinales);
         const restantes = MAX_TENTATIVES - nbTentativesFinales;
