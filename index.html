@@ -113,29 +113,26 @@
     .header-sep   { color: var(--vert-fort); font-weight: 700; }
     .header-nom   { font-weight: 700; color: var(--vert-bord); }
 
-    /* Bouton DYS dans le header */
-    .header-dys {
+    /* Badge "Mode DYS actif" qui remplace l'ancien bouton toggle */
+    .header-dys-badge {
+      display: none;
       position: absolute; right: 20px;
-      display: flex; align-items: center; gap: 8px;
-      cursor: pointer; padding: 6px 14px; border-radius: 999px;
-      border: 1.5px solid rgba(10,110,63,0.2); background: transparent;
-      font-family: Arial, sans-serif; transition: all 0.2s;
+      align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 999px;
+      background: rgba(10,110,63,0.12);
+      border: 1px solid rgba(10,110,63,0.25);
+      font-family: Arial, sans-serif;
+      font-size: 11px; font-weight: 700;
+      color: var(--vert-bord);
+      letter-spacing: 0.04em;
     }
-    .header-dys:hover { background: rgba(10,110,63,0.07); border-color: var(--vert-bord); }
-    .dys-dot {
-      width: 30px; height: 17px; border-radius: 999px;
-      background: #ccc; position: relative; flex-shrink: 0;
-      transition: background 0.3s;
+    .header-dys-badge.visible { display: inline-flex; }
+    .header-dys-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--vert-fort);
     }
-    .dys-dot::after {
-      content: ''; position: absolute; top: 2.5px; left: 2.5px;
-      width: 12px; height: 12px; border-radius: 50%; background: #fff;
-      transition: transform 0.3s cubic-bezier(.22,1,.36,1);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    }
-    .header-dys.on .dys-dot { background: var(--vert-fort); }
-    .header-dys.on .dys-dot::after { transform: translateX(13px); }
-    .dys-lbl { font-size: 11px; font-weight: 700; color: var(--texte-fonce); letter-spacing: 0.04em; }
 
     /* ══ ÉCRANS ════════════════════════════════════════════════ */
     .ecran { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 100vh; padding-top: 70px; }
@@ -153,31 +150,6 @@
     .titre .accent { color: var(--texte-vert); }
     .texte-intro { font-size: 18px; font-weight: 400; color: var(--texte-fonce); text-align: center; line-height: 1.6; max-width: 340px; }
     .texte-intro strong { color: var(--vert-bord); font-weight: 700; }
-
-    /* Bouton DYS sur l'écran accueil */
-    .accueil-dys {
-      margin-top: 6px; display: flex; align-items: center; gap: 10px;
-      cursor: pointer; padding: 8px 18px; border-radius: 999px;
-      border: 1.5px solid rgba(10,110,63,0.2); background: transparent;
-      font-family: Arial, sans-serif; transition: all 0.2s;
-    }
-    .accueil-dys:hover { background: rgba(10,110,63,0.06); }
-    .accueil-dys-dot {
-      width: 34px; height: 19px; border-radius: 999px;
-      background: #ccc; position: relative; flex-shrink: 0;
-      transition: background 0.3s;
-    }
-    .accueil-dys-dot::after {
-      content: ''; position: absolute; top: 2.5px; left: 2.5px;
-      width: 14px; height: 14px; border-radius: 50%; background: #fff;
-      transition: transform 0.3s cubic-bezier(.22,1,.36,1);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    }
-    .accueil-dys.on .accueil-dys-dot { background: var(--vert-fort); }
-    .accueil-dys.on .accueil-dys-dot::after { transform: translateX(15px); }
-    .accueil-dys-texte { text-align: left; }
-    .accueil-dys-lbl { font-size: 12px; font-weight: 700; color: var(--texte-fonce); display: block; }
-    .accueil-dys-sub  { font-size: 10px; color: #6b7c6b; display: block; margin-top: 1px; }
 
     /* ══ BOUTON PRINCIPAL ══════════════════════════════════════ */
     .btn { margin-top: 22px; padding: 15px 54px; border-radius: 999px; border: 2.5px solid var(--vert-bord); background: transparent; font-size: 16px; font-weight: 700; cursor: pointer; letter-spacing: 0.04em; color: var(--vert-bord); animation: btnGlow 2.2s ease-in-out infinite; transition: background 0.2s, color 0.2s, transform 0.15s; font-family: inherit; }
@@ -270,10 +242,7 @@
       <span class="header-sep">·</span>
       <span class="header-nom" id="header-nom">—</span>
     </div>
-    <button class="header-dys" id="header-dys" onclick="basculerDYS()">
-      <div class="dys-dot"></div>
-      <span class="dys-lbl">DYS</span>
-    </button>
+    <div class="header-dys-badge" id="header-dys-badge">Mode DYS</div>
   </div>
 
   <!-- ÉCRAN 0 : CHARGEMENT -->
@@ -291,13 +260,6 @@
       <div class="badge">Fiche remédiation · 1</div>
       <div class="titre">Comprendre les<br><span class="accent">fractions</span></div>
       <button class="btn" onclick="versIntro()">Commencer</button>
-      <button class="accueil-dys" id="accueil-dys" onclick="basculerDYS()">
-        <div class="accueil-dys-dot"></div>
-        <div class="accueil-dys-texte">
-          <span class="accueil-dys-lbl">Mode DYS</span>
-          <span class="accueil-dys-sub">Police et espacement adaptés</span>
-        </div>
-      </button>
     </div>
   </div>
 
@@ -438,6 +400,9 @@
     const email     = params.get('email')      || '';
     const prof      = params.get('prof')       || '';
     const profEmail = params.get('prof_email') || '';
+    // ═══ DÉTECTION AUTOMATIQUE DU MODE DYS ═══
+    // L'espace élève transmet ?dys=1 dans l'URL si l'élève a coché "DYS" à l'inscription
+    const dysActif = params.get('dys') === '1';
 
     document.getElementById('header-lycee').textContent        = lycee;
     document.getElementById('header-classe').textContent       = classe;
@@ -448,30 +413,20 @@
     document.getElementById('prenom-final-revoir').textContent = nom.split(' ')[0];
     document.getElementById('prenom-bloque').textContent       = nom.split(' ')[0];
 
+    // Application automatique du mode DYS au chargement
+    if (dysActif) {
+      document.body.classList.add('dys');
+      document.getElementById('header-dys-badge').classList.add('visible');
+    }
+
     // ── État global ─────────────────────────────────────────────
     let quizInitialDejaPasse = false;
     let nbTentativesFinales  = 0;
     let pointsRatesFinal     = {};
-    let dysActif             = false;
 
-    // Timings adaptatifs selon mode DYS
+    // Timings adaptatifs selon mode DYS (feedbacks plus longs pour laisser le temps de lire)
     const TOK = () => dysActif ? 1500 : 650;
     const TKO = () => dysActif ? 2000 : 1100;
-
-    // ── Mode DYS ────────────────────────────────────────────────
-    function basculerDYS() {
-      dysActif = !dysActif;
-      document.body.style.transition = 'opacity 0.2s';
-      document.body.style.opacity    = '0';
-      setTimeout(() => {
-        document.body.classList.toggle('dys', dysActif);
-        ['header-dys','accueil-dys'].forEach(id => {
-          const el = document.getElementById(id);
-          if (el) el.classList.toggle('on', dysActif);
-        });
-        document.body.style.opacity = '1';
-      }, 200);
-    }
 
     // ── Sauvegarde Apps Script ───────────────────────────────────
     function sauvegarder(statut, score, tentativeNum, extra) {
