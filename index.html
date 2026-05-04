@@ -5,21 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fiche remédiation · 1 — Comprendre les fractions</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=OpenDyslexic:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Sora:wght@400;500;600;700;800&family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=OpenDyslexic:wght@400;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --vert-fort:   #108c5a;
-      --vert-bord:   #0a6e3f;
-      --vert-pale:   #edf7f2;
-      --vert-clair:  #c8edd9;
-      --vert-moyen:  #a8dfc4;
-      --vert-doux:   #d4f0e2;
-      --texte-fonce: #0d2b1f;
-      --texte-vert:  #108c5a;
-      --badge-bg:    rgba(10,110,63,0.13);
-      --badge-texte: #0a6e3f;
+      /* ── Palette écosystème ── */
+      --navy: #1A2C4F;
+      --navy-deep: #142340;
+      --navy-darker: #0E1A2E;
+      --gold: #C28A42;
+      --gold-l: #D4A464;
+      --gold-deep: #B47A35;
+      --gold-dark: #8F5F26;
+      --gold-pale: rgba(212,164,100,.10);
+      --gold-soft: rgba(212,164,100,.18);
+      --gold-bg: rgba(212,164,100,.06);
+      --beige: #F4F2EE;
+      --beige-l: #FAF8F4;
+      --beige-d: #ECE9E2;
+      --cream: #FDF9F0;
+      --cream-l: #FEFCF5;
+      --white: #FFFFFF;
+      --green: #15A362;
+      --green-dark: #0E7348;
+      --green-l: #E8F5EE;
+      --red: #D42626;
+      --red-dark: #A11717;
+      --red-l: #FEF2F2;
+      --text: #1A1311;
+      --text2: #4A4036;
+      --text3: #8A7F73;
+      --border: rgba(20,19,16,.10);
+      --border-soft: rgba(20,19,16,.06);
+
+      --r: 12px;
+      --rl: 16px;
+      --rxl: 22px;
     }
 
     /* ══ MODE DYS ══════════════════════════════════════════════ */
@@ -64,9 +87,9 @@
       to   { opacity: 1; transform: translateY(0); }
     }
     @keyframes btnGlow {
-      0%   { box-shadow: 0 0 0px 0px rgba(10,110,63,0.0); }
-      50%  { box-shadow: 0 0 0px 10px rgba(10,110,63,0.15), 0 0 0px 22px rgba(10,110,63,0.07); }
-      100% { box-shadow: 0 0 0px 0px rgba(10,110,63,0.0); }
+      0%   { box-shadow: 0 0 0 0 rgba(194,138,66,0); }
+      50%  { box-shadow: 0 6px 20px rgba(194,138,66,.30), 0 0 0 0 rgba(194,138,66,.10); }
+      100% { box-shadow: 0 0 0 0 rgba(194,138,66,0); }
     }
     @keyframes regleFadeIn {
       from { opacity: 0; transform: translateY(10px); }
@@ -83,47 +106,85 @@
     /* ══ OVERLAY NIVEAU ════════════════════════════════════════ */
     .overlay-niveau {
       position: fixed; inset: 0; z-index: 999;
-      background: #fdf6ec;
+      background: var(--cream);
       display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 12px;
+      align-items: center; justify-content: center; gap: 14px;
       opacity: 0; pointer-events: none;
       transition: opacity 0.25s ease;
     }
     .overlay-niveau.actif { opacity: 1; }
-    .niveau-titre { font-family: Arial, sans-serif; font-size: clamp(30px,6vw,50px); font-weight: 700; color: #d4820a; text-align: center; opacity: 0; }
+    .niveau-titre {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(28px,5.5vw,46px);
+      font-weight: 700;
+      color: var(--navy);
+      text-align: center;
+      opacity: 0;
+      letter-spacing: -.8px;
+      max-width: 80%;
+      line-height: 1.2;
+    }
     .niveau-titre.jouer { animation: niveauApparition 3.5s cubic-bezier(.22,1,.36,1) forwards; }
-    .niveau-sous { font-family: Arial, sans-serif; font-size: clamp(13px,2vw,17px); font-weight: 600; color: #b06a20; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0; }
+    .niveau-sous {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: clamp(11px,1.5vw,13px);
+      font-weight: 700;
+      color: var(--gold-deep);
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      opacity: 0;
+    }
     .niveau-sous.jouer { animation: niveauApparition 3.5s 0.1s cubic-bezier(.22,1,.36,1) forwards; }
 
     /* ══ BASE ══════════════════════════════════════════════════ */
     html, body { height: 100%; }
-    body { min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: Arial, sans-serif; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter Tight', system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--beige);
+    }
 
     /* ══ HEADER ════════════════════════════════════════════════ */
     .header {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: center;
       padding: 16px 28px;
-      background: rgba(255,255,255,0.55);
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255,255,255,0.7);
+      background: rgba(244,242,238,.75);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
       animation: fadeUp 0.6s cubic-bezier(.22,1,.36,1) both;
     }
-    .header-ligne { font-size: 18px; font-weight: 500; color: var(--texte-fonce); display: flex; align-items: center; gap: 10px; }
-    .header-sep   { color: var(--vert-fort); font-weight: 700; }
-    .header-nom   { font-weight: 700; color: var(--vert-bord); }
+    .header-ligne {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text2);
+      display: flex; align-items: center; gap: 10px;
+      letter-spacing: -.05px;
+    }
+    .header-sep   { color: var(--gold-deep); font-weight: 700; }
+    .header-nom {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -.2px;
+    }
 
-    /* Badge "Mode DYS actif" qui remplace l'ancien bouton toggle */
+    /* Badge "Mode DYS actif" */
     .header-dys-badge {
       display: none;
       position: absolute; right: 20px;
       align-items: center; gap: 6px;
       padding: 5px 12px; border-radius: 999px;
-      background: rgba(10,110,63,0.12);
-      border: 1px solid rgba(10,110,63,0.25);
-      font-family: Arial, sans-serif;
-      font-size: 11px; font-weight: 700;
-      color: var(--vert-bord);
+      background: var(--gold-pale);
+      border: 1px solid var(--gold-soft);
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 10.5px; font-weight: 700;
+      color: var(--gold-deep);
       letter-spacing: 0.04em;
     }
     .header-dys-badge.visible { display: inline-flex; }
@@ -131,98 +192,569 @@
       content: '';
       width: 6px; height: 6px;
       border-radius: 50%;
-      background: var(--vert-fort);
+      background: var(--gold);
     }
 
     /* ══ ÉCRANS ════════════════════════════════════════════════ */
     .ecran { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 100vh; padding-top: 70px; }
     .ecran.cache { display: none; }
 
-    .fond-vert  { background: linear-gradient(135deg,var(--vert-clair),var(--vert-pale),var(--vert-moyen),var(--vert-pale),var(--vert-doux)); background-size: 400% 400%; animation: gradientWave 8s ease infinite; }
-    .fond-chaud { background: linear-gradient(135deg,#fdf6ec,#fef9f0,#fcebd8,#fef5e7,#fdf0e0); background-size: 400% 400%; animation: gradientWave 8s ease infinite; }
+    /* Fond beige neutre pour quiz et accueil */
+    .fond-vert {
+      background: linear-gradient(135deg, #F4F2EE, #FAF8F4, #F0EDE6, #F7F4ED, #F4F2EE);
+      background-size: 400% 400%;
+      animation: gradientWave 28s ease infinite;
+    }
+    /* Fond crème/or pâle pour les écrans de remédiation */
+    .fond-chaud {
+      background: linear-gradient(135deg, #FDF9F0, #FEFCF5, #FAF1E0, #FDF6EC, #FBF4E4);
+      background-size: 400% 400%;
+      animation: gradientWave 28s ease infinite;
+    }
 
-    /* ══ CARTES ════════════════════════════════════════════════ */
-    .carte { background: rgba(255,255,255,0.62); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.85); border-radius: 28px; padding: 56px 64px 52px; display: flex; flex-direction: column; align-items: center; gap: 14px; max-width: 480px; width: 90%; }
+    /* ══ CARTES (glassmorphism préservé) ═══════════════════════ */
+    .carte {
+      background: rgba(255,255,255,.62);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.85);
+      border-radius: var(--rxl);
+      padding: 56px 64px 52px;
+      display: flex; flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      max-width: 500px; width: 90%;
+      box-shadow: 0 8px 32px rgba(20,19,16,.05);
+    }
     .carte.anime { animation: fadeUp 0.8s cubic-bezier(.22,1,.36,1) both; }
 
-    .badge { font-size: 11px; font-weight: 700; color: var(--badge-texte); background: var(--badge-bg); padding: 5px 18px; border-radius: 999px; letter-spacing: 0.07em; text-transform: uppercase; }
-    .titre { font-size: clamp(26px,5vw,34px); font-weight: 500; color: var(--texte-fonce); text-align: center; line-height: 1.25; }
-    .titre .accent { color: var(--texte-vert); }
-    .texte-intro { font-size: 18px; font-weight: 400; color: var(--texte-fonce); text-align: center; line-height: 1.6; max-width: 340px; }
-    .texte-intro strong { color: var(--vert-bord); font-weight: 700; }
+    /* ══ BADGES (or pâle écosystème) ═══════════════════════════ */
+    .badge {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--gold-deep);
+      background: var(--gold-pale);
+      padding: 6px 18px;
+      border-radius: 999px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      border: 1px solid var(--gold-soft);
+    }
 
-    /* ══ BOUTON PRINCIPAL ══════════════════════════════════════ */
-    .btn { margin-top: 22px; padding: 15px 54px; border-radius: 999px; border: 2.5px solid var(--vert-bord); background: transparent; font-size: 16px; font-weight: 700; cursor: pointer; letter-spacing: 0.04em; color: var(--vert-bord); animation: btnGlow 2.2s ease-in-out infinite; transition: background 0.2s, color 0.2s, transform 0.15s; font-family: inherit; }
-    .btn:hover { background: var(--vert-bord); color: #fff; transform: scale(1.05); }
-    .btn:active { transform: scale(0.97); }
+    /* ══ TITRES ════════════════════════════════════════════════ */
+    .titre {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(24px,4.5vw,32px);
+      font-weight: 700;
+      color: var(--navy);
+      text-align: center;
+      line-height: 1.2;
+      letter-spacing: -.6px;
+    }
+    .titre .accent {
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic;
+      font-weight: 500;
+      color: var(--gold-deep);
+      letter-spacing: -.2px;
+    }
+
+    /* ══ TEXTE D'INTRO ═════════════════════════════════════════ */
+    .texte-intro {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 14.5px;
+      font-weight: 400;
+      color: var(--text2);
+      text-align: center;
+      line-height: 1.65;
+      max-width: 380px;
+      letter-spacing: -.05px;
+    }
+    .texte-intro strong {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* ══ BOUTON PRINCIPAL (or dégradé) ═════════════════════════ */
+    .btn {
+      margin-top: 22px;
+      padding: 14px 36px;
+      border-radius: var(--r);
+      border: none;
+      background: linear-gradient(180deg, var(--gold-l), var(--gold-deep));
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: -.05px;
+      color: #fff;
+      animation: btnGlow 2.2s ease-in-out infinite;
+      transition: transform .15s, box-shadow .2s;
+    }
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(194,138,66,.35);
+    }
+    .btn:active { transform: translateY(0); }
 
     /* ══ QUIZ ══════════════════════════════════════════════════ */
-    .quiz-carte { background: rgba(255,255,255,0.62); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.85); border-radius: 28px; padding: 40px 48px 44px; display: flex; flex-direction: column; align-items: center; gap: 20px; max-width: 560px; width: 92%; }
+    .quiz-carte {
+      background: rgba(255,255,255,.62);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.85);
+      border-radius: var(--rxl);
+      padding: 40px 48px 44px;
+      display: flex; flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      max-width: 580px; width: 92%;
+      box-shadow: 0 8px 32px rgba(20,19,16,.06);
+    }
 
     .prog-wrap { width: 100%; }
-    .prog-label { font-size: 12px; font-weight: 700; color: var(--vert-bord); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; text-align: center; }
-    .prog-track { width: 100%; height: 6px; background: rgba(10,110,63,0.12); border-radius: 999px; overflow: hidden; }
-    .prog-fill  { height: 100%; background: var(--vert-fort); border-radius: 999px; transition: width 0.5s cubic-bezier(.22,1,.36,1); width: 0%; }
+    .prog-label {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .prog-track {
+      width: 100%; height: 6px;
+      background: rgba(20,19,16,.06);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold-l), var(--gold-deep));
+      border-radius: 999px;
+      transition: width 0.5s cubic-bezier(.22,1,.36,1);
+      width: 0%;
+    }
 
-    .consigne { font-size: 20px; font-weight: 500; color: var(--texte-fonce); text-align: center; line-height: 1.8; }
-    .consigne .mot-cle { color: var(--vert-bord); font-weight: 700; }
+    .consigne {
+      font-family: 'Sora', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      text-align: center;
+      line-height: 1.55;
+      letter-spacing: -.2px;
+    }
+    .consigne .mot-cle {
+      color: var(--gold-deep);
+      font-weight: 700;
+    }
 
-    .feedback { font-size: 15px; font-weight: 700; padding: 10px 24px; border-radius: 12px; min-height: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; opacity: 0; transition: opacity 0.3s; text-align: center; }
-    .feedback.correct { background: rgba(16,140,90,0.15); color: var(--vert-bord); opacity: 1; }
-    .feedback.faux    { background: rgba(200,50,50,0.12);  color: #a83232; opacity: 1; }
-    .feedback-bonne   { font-size: 13px; font-weight: 500; color: #0a6e3f; margin-top: 2px; }
+    .feedback {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 10px 24px;
+      border-radius: 12px;
+      min-height: 40px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 4px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      text-align: center;
+      letter-spacing: -.05px;
+    }
+    .feedback.correct {
+      background: var(--green-l);
+      color: var(--green-dark);
+      opacity: 1;
+    }
+    .feedback.faux {
+      background: var(--red-l);
+      color: var(--red-dark);
+      opacity: 1;
+    }
+    .feedback-bonne {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--green-dark);
+      margin-top: 2px;
+    }
 
     /* ══ FRACTIONS ═════════════════════════════════════════════ */
-    .fi { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; margin: 0 4px; font-weight: 700; line-height: 1.1; }
+    .fi {
+      display: inline-flex; flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+      margin: 0 4px;
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      line-height: 1.1;
+    }
     .fi-barre { width: 100%; min-width: 16px; height: 2px; display: block; margin: 1px 0; }
 
-    .fraction-grande { display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 8px 0; }
-    .frac-nombre { font-size: 64px; font-weight: 700; color: var(--texte-fonce); line-height: 1; cursor: pointer; padding: 10px 24px; border-radius: 16px; border: 2.5px solid transparent; background: rgba(255,255,255,0.5); transition: background 0.18s, border-color 0.18s, transform 0.15s; }
-    .frac-nombre:hover { background: rgba(16,140,90,0.1); border-color: var(--vert-fort); transform: scale(1.06); }
-    .frac-barre { width: 100px; height: 4px; background: var(--texte-fonce); border-radius: 2px; }
+    .fraction-grande {
+      display: flex; flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      margin: 8px 0;
+    }
+    .frac-nombre {
+      font-family: 'Sora', sans-serif;
+      font-size: 60px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1;
+      cursor: pointer;
+      padding: 10px 24px;
+      border-radius: var(--rl);
+      border: 2px solid transparent;
+      background: rgba(255,255,255,.55);
+      transition: background .18s, border-color .18s, transform .15s;
+      letter-spacing: -1px;
+    }
+    .frac-nombre:hover {
+      background: var(--gold-pale);
+      border-color: var(--gold);
+      transform: scale(1.05);
+    }
+    .frac-barre {
+      width: 100px; height: 4px;
+      background: var(--navy);
+      border-radius: 2px;
+    }
 
-    .choix-wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; width: 100%; }
-    .choix-btn { padding: 14px 28px; border-radius: 16px; border: 2px solid rgba(10,110,63,0.25); background: rgba(255,255,255,0.6); font-size: 18px; font-weight: 600; color: var(--texte-fonce); cursor: pointer; transition: background 0.18s, border-color 0.18s, transform 0.15s; min-width: 120px; text-align: center; font-family: inherit; }
-    .choix-btn:hover { background: rgba(16,140,90,0.1); border-color: var(--vert-fort); transform: scale(1.04); }
+    .choix-wrap {
+      display: flex; flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      width: 100%;
+    }
+    .choix-btn {
+      font-family: 'Inter Tight', sans-serif;
+      padding: 12px 26px;
+      border-radius: var(--r);
+      border: 1.5px solid var(--border);
+      background: rgba(255,255,255,.7);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      transition: background .18s, border-color .18s, transform .15s, box-shadow .2s;
+      min-width: 110px;
+      text-align: center;
+      letter-spacing: -.05px;
+    }
+    .choix-btn:hover {
+      background: var(--gold-pale);
+      border-color: var(--gold);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(194,138,66,.15);
+    }
 
-    .fractions-comparaison { display: flex; align-items: center; gap: 32px; flex-wrap: wrap; justify-content: center; }
-    .frac-bloc { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 16px 28px; border-radius: 20px; border: 2.5px solid transparent; background: rgba(255,255,255,0.5); transition: background 0.18s, border-color 0.18s, transform 0.15s; }
-    .frac-bloc:hover { background: rgba(16,140,90,0.1); border-color: var(--vert-fort); transform: scale(1.06); }
-    .frac-bloc .fn { font-size: 48px; font-weight: 700; color: var(--texte-fonce); line-height: 1; }
-    .frac-bloc .fb { width: 60px; height: 3px; background: var(--texte-fonce); border-radius: 2px; }
+    .fractions-comparaison {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
 
-    .frac-bloc-r { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 16px 28px; border-radius: 20px; border: 2.5px solid transparent; background: rgba(255,255,255,0.5); transition: background 0.18s, border-color 0.18s, transform 0.15s; }
-    .frac-bloc-r:hover { background: rgba(212,130,10,0.1); border-color: #d4820a; transform: scale(1.06); }
-    .frac-bloc-r .fn { font-size: 48px; font-weight: 700; color: #3d2000; line-height: 1; }
-    .frac-bloc-r .fb { width: 60px; height: 3px; background: #3d2000; border-radius: 2px; }
+    /* Mode quiz : bloc fraction comparaison (style navy) */
+    .frac-bloc {
+      display: flex; flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      padding: 16px 28px;
+      border-radius: var(--rl);
+      border: 2px solid transparent;
+      background: rgba(255,255,255,.55);
+      transition: background .18s, border-color .18s, transform .15s;
+      font-family: 'Sora', sans-serif;
+    }
+    .frac-bloc:hover {
+      background: var(--gold-pale);
+      border-color: var(--gold);
+      transform: scale(1.05);
+    }
+    .frac-bloc .fn {
+      font-size: 44px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1;
+      letter-spacing: -.5px;
+    }
+    .frac-bloc .fb {
+      width: 60px; height: 3px;
+      background: var(--navy);
+      border-radius: 2px;
+    }
+
+    /* Mode remédiation : bloc fraction comparaison (style or) */
+    .frac-bloc-r {
+      display: flex; flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      padding: 16px 28px;
+      border-radius: var(--rl);
+      border: 2px solid transparent;
+      background: rgba(255,255,255,.55);
+      transition: background .18s, border-color .18s, transform .15s;
+      font-family: 'Sora', sans-serif;
+    }
+    .frac-bloc-r:hover {
+      background: var(--gold-pale);
+      border-color: var(--gold);
+      transform: scale(1.05);
+    }
+    .frac-bloc-r .fn {
+      font-size: 44px;
+      font-weight: 700;
+      color: var(--gold-dark);
+      line-height: 1;
+      letter-spacing: -.5px;
+    }
+    .frac-bloc-r .fb {
+      width: 60px; height: 3px;
+      background: var(--gold-dark);
+      border-radius: 2px;
+    }
 
     /* ══ REMÉDIATION ═══════════════════════════════════════════ */
-    .remed-carte { background: rgba(255,255,255,0.70); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.9); border-radius: 28px; padding: 40px 52px 48px; display: flex; flex-direction: column; align-items: center; gap: 0; max-width: 600px; width: 92%; }
+    .remed-carte {
+      background: rgba(255,255,255,.70);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.9);
+      border-radius: var(--rxl);
+      padding: 40px 52px 48px;
+      display: flex; flex-direction: column;
+      align-items: center;
+      gap: 0;
+      max-width: 620px; width: 92%;
+      box-shadow: 0 8px 32px rgba(20,19,16,.06);
+    }
     .remed-prog-wrap { width: 100%; margin-bottom: 24px; }
-    .remed-prog-header { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 10px; }
-    .remed-prog-badge { font-size: 13px; font-weight: 700; background: rgba(212,130,10,0.15); color: #b06a20; padding: 5px 18px; border-radius: 999px; letter-spacing: 0.04em; }
-    .remed-prog-num { font-size: 11px; font-weight: 600; color: #c8913a; letter-spacing: 0.05em; text-transform: uppercase; }
-    .remed-prog-track { width: 100%; height: 6px; background: rgba(180,100,20,0.12); border-radius: 999px; overflow: hidden; }
-    .remed-prog-fill  { height: 100%; background: #d4820a; border-radius: 999px; transition: width 0.6s cubic-bezier(.22,1,.36,1); width: 0%; }
+    .remed-prog-header {
+      display: flex; flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .remed-prog-badge {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      background: var(--gold-pale);
+      color: var(--gold-deep);
+      padding: 5px 16px;
+      border-radius: 999px;
+      letter-spacing: .04em;
+      border: 1px solid var(--gold-soft);
+    }
+    .remed-prog-num {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text3);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .remed-prog-track {
+      width: 100%; height: 6px;
+      background: rgba(20,19,16,.06);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .remed-prog-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold-l), var(--gold-deep));
+      border-radius: 999px;
+      transition: width 0.6s cubic-bezier(.22,1,.36,1);
+      width: 0%;
+    }
 
-    .regle-bloc { width: 100%; background: rgba(212,130,10,0.08); border-left: 4px solid #d4820a; border-radius: 0 12px 12px 0; padding: 16px 20px; margin-bottom: 0; animation: regleFadeIn 0.6s cubic-bezier(.22,1,.36,1) both; }
-    .regle-label { font-size: 10px; font-weight: 700; color: #b06a20; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
-    .regle-texte { font-size: 15px; font-weight: 500; color: #3d2000; line-height: 1.6; }
+    .regle-bloc {
+      width: 100%;
+      background: var(--gold-bg);
+      border-left: 4px solid var(--gold);
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px;
+      margin-bottom: 0;
+      animation: regleFadeIn 0.6s cubic-bezier(.22,1,.36,1) both;
+    }
+    .regle-label {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--gold-deep);
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .regle-texte {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 14.5px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.6;
+      letter-spacing: -.05px;
+    }
+    .regle-texte strong[style*="color"] {
+      /* Les <strong style="color:#C28A42"> dans regleContenu seront patchés via JS */
+    }
 
-    .btn-compris-wrap { width: 100%; display: flex; justify-content: center; margin: 20px 0 28px; animation: regleFadeIn 0.6s 0.3s cubic-bezier(.22,1,.36,1) both; }
-    .btn-compris { padding: 12px 44px; border-radius: 999px; border: 2.5px solid #d4820a; background: transparent; font-size: 15px; font-weight: 700; cursor: pointer; letter-spacing: 0.04em; color: #d4820a; transition: background 0.2s, color 0.2s, transform 0.15s; font-family: inherit; }
-    .btn-compris:hover { background: #d4820a; color: #fff; transform: scale(1.04); }
-    .btn-compris:active { transform: scale(0.97); }
+    .btn-compris-wrap {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin: 22px 0 28px;
+      animation: regleFadeIn 0.6s 0.3s cubic-bezier(.22,1,.36,1) both;
+    }
+    .btn-compris {
+      font-family: 'Inter Tight', sans-serif;
+      padding: 11px 38px;
+      border-radius: var(--r);
+      border: 1.5px solid var(--gold);
+      background: transparent;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: -.05px;
+      color: var(--gold-deep);
+      transition: background .2s, color .2s, transform .15s, box-shadow .2s;
+    }
+    .btn-compris:hover {
+      background: linear-gradient(180deg, var(--gold-l), var(--gold-deep));
+      border-color: transparent;
+      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(194,138,66,.30);
+    }
+    .btn-compris:active { transform: translateY(0); }
 
-    .remed-exercices { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 20px; opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .remed-exercices {
+      width: 100%;
+      display: flex; flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
     .remed-exercices.visible { opacity: 1; transform: translateY(0); }
 
-    .remed-consigne { font-size: 19px; font-weight: 500; color: #3d2000; text-align: center; line-height: 1.8; }
-    .remed-consigne .mot-cle { color: #d4820a; font-weight: 700; }
+    .remed-consigne {
+      font-family: 'Sora', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text);
+      text-align: center;
+      line-height: 1.55;
+      letter-spacing: -.2px;
+    }
+    .remed-consigne .mot-cle {
+      color: var(--gold-deep);
+      font-weight: 700;
+    }
 
-    .remed-feedback { font-size: 15px; font-weight: 700; padding: 10px 24px; border-radius: 12px; min-height: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; opacity: 0; transition: opacity 0.3s; text-align: center; }
-    .remed-feedback.correct { background: rgba(16,140,90,0.15); color: #0a6e3f; opacity: 1; }
-    .remed-feedback.faux    { background: rgba(200,50,50,0.12);  color: #a83232; opacity: 1; }
+    .remed-feedback {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 10px 24px;
+      border-radius: 12px;
+      min-height: 40px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 4px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      text-align: center;
+      letter-spacing: -.05px;
+    }
+    .remed-feedback.correct {
+      background: var(--green-l);
+      color: var(--green-dark);
+      opacity: 1;
+    }
+    .remed-feedback.faux {
+      background: var(--red-l);
+      color: var(--red-dark);
+      opacity: 1;
+    }
+
+    /* ══ SAISIE DE FRACTION (Point 3 + quiz) ════════════════════ */
+    .saisie-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .saisie-frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .saisie-input {
+      width: 72px;
+      height: 52px;
+      border: 1.5px solid rgba(20,19,16,.18);
+      border-radius: var(--r);
+      background: rgba(255,255,255,.85);
+      font-family: 'Sora', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      text-align: center;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .saisie-input::placeholder {
+      color: var(--text3);
+      font-weight: 400;
+    }
+    .saisie-input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px var(--gold-pale);
+    }
+    .saisie-input:disabled {
+      background: rgba(20,19,16,.04);
+      color: var(--text3);
+    }
+    .saisie-barre {
+      width: 72px;
+      height: 3px;
+      background: var(--navy);
+      border-radius: 2px;
+    }
+    .saisie-btn {
+      padding: 11px 28px;
+      border-radius: var(--r);
+      border: none;
+      background: var(--navy);
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+      transition: all .2s;
+      letter-spacing: -.05px;
+    }
+    .saisie-btn:hover {
+      background: var(--navy-deep);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(26,44,79,.25);
+    }
+    body.dys .saisie-input { font-size: 26px !important; height: 60px !important; width: 80px !important; }
+    body.dys .saisie-barre { width: 80px !important; }
   </style>
 </head>
 <body>
@@ -259,56 +791,11 @@
     <div class="carte anime">
       <div class="badge">Fiche remédiation · 1</div>
       <div class="titre">Comprendre les<br><span class="accent">fractions</span></div>
-      <button class="btn" onclick="versIntro()">Commencer</button>
+      <button class="btn" onclick="commencerFiche()">Commencer</button>
     </div>
   </div>
 
-  <!-- ÉCRAN 2 : INTRO -->
-  <div class="ecran fond-vert cache" id="ecran-intro">
-    <div class="carte">
-      <div class="badge">Fiche remédiation · 1</div>
-      <div class="texte-intro">
-        Vérifions si tu dois vraiment<br>
-        consolider cette notion en passant<br>
-        <strong>ce petit quiz</strong> 👇
-      </div>
-      <button class="btn" onclick="versQuiz()">Compris !</button>
-    </div>
-  </div>
-
-  <!-- ÉCRAN 3 : QUIZ INITIAL -->
-  <div class="ecran fond-vert cache" id="ecran-quiz">
-    <div class="quiz-carte">
-      <div class="prog-wrap">
-        <div class="prog-label" id="prog-label">Point 1 / 6</div>
-        <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
-      </div>
-      <div class="consigne" id="consigne"></div>
-      <div id="zone-question"></div>
-      <div class="feedback" id="feedback"></div>
-    </div>
-  </div>
-
-  <!-- ÉCRAN 4A : VALIDÉ -->
-  <div class="ecran fond-vert cache" id="ecran-valide">
-    <div class="carte anime">
-      <div class="badge" style="background:rgba(16,140,90,0.15);color:#0a6e3f;">Notion validée ✓</div>
-      <div class="titre">Bravo <span class="accent" id="prenom-valide"></span> ! 🎉</div>
-      <div class="texte-intro">Tu maîtrises déjà cette notion.<br>Pas besoin de remédiation ici !</div>
-    </div>
-  </div>
-
-  <!-- ÉCRAN 4B : SCORE -->
-  <div class="ecran fond-vert cache" id="ecran-score">
-    <div class="carte anime">
-      <div class="badge" style="background:rgba(200,100,50,0.12);color:#a85a20;">Quiz terminé</div>
-      <div class="titre">On va travailler<br>ça <span class="accent" id="prenom-score"></span> 💪</div>
-      <div class="texte-intro" id="score-texte"></div>
-      <button class="btn" onclick="commencerFiche()">Commencer la fiche</button>
-    </div>
-  </div>
-
-  <!-- ÉCRAN 5 : REMÉDIATION -->
+  <!-- ÉCRAN REMÉDIATION (lancé directement depuis l'accueil) -->
   <div class="ecran fond-chaud cache" id="ecran-fiche">
     <div class="remed-carte">
       <div class="remed-prog-wrap">
@@ -359,7 +846,7 @@
   <!-- ÉCRAN 8A : RÉUSSI -->
   <div class="ecran fond-vert cache" id="ecran-final-ok">
     <div class="carte anime">
-      <div class="badge" style="background:rgba(16,140,90,0.15);color:#0a6e3f;">Notion maîtrisée ✓</div>
+      <div class="badge" style="background:rgba(21,163,98,0.13);color:#0E7348;">Notion maîtrisée ✓</div>
       <div class="titre">Bravo <span class="accent" id="prenom-final-ok"></span> ! 🎉</div>
       <div class="texte-intro" id="texte-final-ok"></div>
     </div>
@@ -368,7 +855,7 @@
   <!-- ÉCRAN 8B : À REVOIR -->
   <div class="ecran fond-vert cache" id="ecran-final-revoir">
     <div class="carte anime">
-      <div class="badge" style="background:rgba(200,50,50,0.12);color:#a83232;">À revoir</div>
+      <div class="badge" style="background:rgba(212,38,38,0.10);color:#A11717;">À revoir</div>
       <div class="titre">Pas encore <span class="accent" id="prenom-final-revoir"></span>…</div>
       <div class="texte-intro" id="texte-final-revoir"></div>
       <button class="btn" onclick="revenirFiche()">Revoir le cours</button>
@@ -378,7 +865,7 @@
   <!-- ÉCRAN 8C : BLOQUÉ -->
   <div class="ecran fond-vert cache" id="ecran-bloque">
     <div class="carte anime">
-      <div class="badge" style="background:rgba(200,50,50,0.12);color:#a83232;">Aide en route 🙋</div>
+      <div class="badge" style="background:rgba(212,38,38,0.10);color:#A11717;">Aide en route 🙋</div>
       <div class="titre">Ton prof va venir<br>t'aider <span class="accent" id="prenom-bloque"></span></div>
       <div class="texte-intro">Tu as fait 3 tentatives.<br>Ton enseignant a été alerté et va passer te voir pour t'expliquer.<br><br>Pas de panique, c'est normal d'avoir besoin d'aide !</div>
     </div>
@@ -407,8 +894,6 @@
     document.getElementById('header-lycee').textContent        = lycee;
     document.getElementById('header-classe').textContent       = classe;
     document.getElementById('header-nom').textContent          = nom;
-    document.getElementById('prenom-valide').textContent       = nom.split(' ')[0];
-    document.getElementById('prenom-score').textContent        = nom.split(' ')[0];
     document.getElementById('prenom-final-ok').textContent     = nom.split(' ')[0];
     document.getElementById('prenom-final-revoir').textContent = nom.split(' ')[0];
     document.getElementById('prenom-bloque').textContent       = nom.split(' ')[0];
@@ -420,7 +905,6 @@
     }
 
     // ── État global ─────────────────────────────────────────────
-    let quizInitialDejaPasse = false;
     let nbTentativesFinales  = 0;
     let pointsRatesFinal     = {};
 
@@ -452,23 +936,17 @@
         const lignes = (data.data || []).filter(r => r.eleve_id === email && r.fiche_id === FICHE_ID);
         if (!lignes.length) { allerVers('ecran-chargement','ecran-accueil'); return; }
 
-        const init = lignes.find(r => r.statut === 'quiz_initial');
-        if (init) {
-          quizInitialDejaPasse = true;
-          bonnesRep = Math.round((parseFloat(init.score_quiz) / 100) * QUESTIONS.length);
-        }
-
+        // Compter les tentatives au quiz final déjà passées
         nbTentativesFinales = lignes.filter(r =>
           ['quiz_final_echec','quiz_final_valide','echec_3_tentatives'].includes(r.statut)
         ).length;
 
-        if (lignes.find(r => r.statut === 'echec_3_tentatives'))  { allerVers('ecran-chargement','ecran-bloque');  return; }
-        if (lignes.find(r => r.statut === 'quiz_final_valide'))   { allerVers('ecran-chargement','ecran-valide');  return; }
-        if (init) {
-          document.getElementById('score-texte').innerHTML =
-            'Tu avais eu <strong>' + bonnesRep + ' / ' + QUESTIONS.length + ' bonnes réponses</strong>.<br>Continue la fiche là où tu t\'étais arrêté.';
-          allerVers('ecran-chargement','ecran-score'); return;
+        // Cas bloqué : 3 échecs au quiz final
+        if (lignes.find(r => r.statut === 'echec_3_tentatives')) {
+          allerVers('ecran-chargement','ecran-bloque');
+          return;
         }
+        // Tous les autres cas : on renvoie vers l'accueil (l'élève peut refaire la fiche)
         allerVers('ecran-chargement','ecran-accueil');
       } catch(e) { allerVers('ecran-chargement','ecran-accueil'); }
     }
@@ -476,43 +954,44 @@
 
     // ── Helper fraction inline ───────────────────────────────────
     function fi(a, b, orange) {
-      const col = orange ? '#d4820a' : 'var(--vert-bord)';
-      return `<span class="fi" style="color:${col};font-size:0.85em;"><span>${a}</span><span class="fi-barre" style="background:${col};width:100%;min-width:18px;height:2px;display:block;margin:1px 0;"></span><span>${b}</span></span>`;
+      const col = orange ? '#C28A42' : '#1A2C4F';
+      return `<span class="fi" style="color:${col};font-size:0.95em;font-family:'Sora',sans-serif;"><span>${a}</span><span class="fi-barre" style="background:${col};width:100%;min-width:18px;height:2.5px;display:block;margin:2px 0;border-radius:2px;"></span><span>${b}</span></span>`;
     }
 
     // ── Helper bonne réponse lisible (pour mode DYS) ─────────────
     function bonneReponseTexte(q) {
-      if (q.type === 'choix')         return q.bonne;
-      if (q.type === 'fraction-clic') return q.cible === 'num' ? 'le numérateur (en haut)' : 'le dénominateur (en bas)';
-      if (q.type === 'comparaison')   { const f = q.fractions[q.bonne]; return f.num + '/' + f.den; }
+      if (q.type === 'choix')           return q.bonne;
+      if (q.type === 'fraction-clic')   return q.cible === 'num' ? 'le numérateur (en haut)' : 'le dénominateur (en bas)';
+      if (q.type === 'comparaison')     { const f = q.fractions[q.bonne]; return f.num + '/' + f.den; }
+      if (q.type === 'fraction-saisie') return q.rn + '/' + q.rd;
       return '';
     }
 
     // ── Données pédagogiques ─────────────────────────────────────
     const QUESTIONS = [
-      { point:1, type:'fraction-clic', consigne:'Clique sur le <span class="mot-cle">numérateur</span>', num:3, den:4, cible:'num' },
-      { point:1, type:'fraction-clic', consigne:'Clique sur le <span class="mot-cle">dénominateur</span>', num:7, den:9, cible:'den' },
+      // ── Point 1 — Numérateur et dénominateur ──
+      { point:1, type:'fraction-clic', consigne:'Clique sur le <span class="mot-cle">numérateur</span>', num:2, den:9, cible:'num' },
+      { point:1, type:'fraction-clic', consigne:'Clique sur le <span class="mot-cle">dénominateur</span>', num:6, den:13, cible:'den' },
+      { point:1, type:'fraction-clic', consigne:'Clique sur le <span class="mot-cle">numérateur</span>', num:8, den:3, cible:'num' },
+      // ── Point 2 — Barre de fraction ──
       { point:2, type:'choix', consigne:'La barre de fraction signifie :', choix:['÷','×','+','−'], bonne:'÷' },
-      { point:2, type:'choix', consigne:`${fi(5,7,false)} c'est la même chose que :`, choix:['5÷7','7÷5','5×7','5+7'], bonne:'5÷7' },
-      { point:3, type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:3,den:7},{num:5,den:7}], bonne:1 },
-      { point:3, type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:8,den:11},{num:4,den:11}], bonne:0 },
-      { point:4, type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:3,den:4},{num:3,den:7}], bonne:0 },
-      { point:4, type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:5,den:3},{num:5,den:8}], bonne:0 },
-      { point:5, type:'choix', consigne:`La fraction ${fi(7,5,false)} est :`, choix:['> 1','< 1','= 1'], bonne:'> 1' },
-      { point:5, type:'choix', consigne:`La fraction ${fi(3,8,false)} comparée à ½ :`, choix:['> ½','< ½','= ½'], bonne:'< ½' },
-      { point:6, type:'choix', consigne:`${fi(2,5,false)} de 60 ça veut dire :`, choix:['2/5 × 60','2/5 ÷ 60','2/5 + 60','2/5 − 60'], bonne:'2/5 × 60' },
-      { point:6, type:'choix', consigne:`${fi(1,2,false)} de 30 = ?`, choix:['15','60','30','10'], bonne:'15' },
+      { point:2, type:'choix', consigne:`${fi(4,11,false)} c'est la même chose que :`, choix:['4÷11','11÷4','4×11','4+11'], bonne:'4÷11' },
+      { point:2, type:'choix', consigne:`${fi(9,2,false)} c'est la même chose que :`, choix:['2÷9','9÷2','9+2','9×2'], bonne:'9÷2' },
+      // ── Point 3 — Écrire une fraction à partir d'un partage ──
+      { point:3, type:'fraction-saisie', consigne:'Écris la fraction qui représente <span class="mot-cle">6 parts sur 11</span>.', rn:6, rd:11 },
+      { point:3, type:'fraction-saisie', consigne:'Écris la fraction qui représente <span class="mot-cle">2 parts sur 8</span>.', rn:2, rd:8 },
+      { point:3, type:'fraction-saisie', consigne:'Écris la fraction qui représente <span class="mot-cle">9 parts sur 13</span>.', rn:9, rd:13 },
     ];
 
     const LABELS_POINTS = {
-      1:'Numérateur et dénominateur', 2:'Barre de fraction',
-      3:'Comparer — même dénominateur', 4:'Comparer — même numérateur',
-      5:'Le numérateur face au dénominateur', 6:'Multiplier ou diviser fractions égales'
+      1:'Numérateur et dénominateur',
+      2:'Barre de fraction',
+      3:'Écrire une fraction à partir d\'un partage'
     };
 
     const POINTS = [
       { num:1, titre:'Numérateur et dénominateur', regleHTML:true,
-        regleContenu: 'Le <strong style="color:#d4820a;">numérateur</strong> est le nombre <strong>en haut</strong>. Le <strong style="color:#d4820a;">dénominateur</strong> est le nombre <strong>en bas</strong>.',
+        regleContenu: 'Le <strong style="color:#C28A42;">numérateur</strong> est le nombre <strong>en haut</strong>. Le <strong style="color:#C28A42;">dénominateur</strong> est le nombre <strong>en bas</strong>.',
         exercices: [
           { type:'fraction-clic', consigne:'Clique sur le <span class="mot-cle">numérateur</span>', num:3, den:4, cible:'num' },
           { type:'fraction-clic', consigne:'Clique sur le <span class="mot-cle">dénominateur</span>', num:11, den:3, cible:'den' },
@@ -522,7 +1001,7 @@
         ]
       },
       { num:2, titre:'Barre de fraction, quelle signification ?', regleHTML:true,
-        regleContenu: 'La barre de fraction signifie <strong style="color:#d4820a;">divisé</strong>. Ainsi <strong>a/b = a ÷ b</strong> — la barre remplace le signe ÷.',
+        regleContenu: 'La barre de fraction signifie <strong style="color:#C28A42;">divisé</strong>. Ainsi <strong>a/b = a ÷ b</strong> — la barre remplace le signe ÷.',
         exercices: [
           { type:'choix', consigne:'La barre de fraction signifie :', choix:['÷','×','+','−'], bonne:'÷' },
           { type:'choix', consigne:`${fi(5,7,true)} c'est la même chose que :`, choix:['5÷7','7÷5','5×7','5+7'], bonne:'5÷7' },
@@ -531,92 +1010,17 @@
           { type:'choix', consigne:`${fi(12,5,true)} c'est la même chose que :`, choix:['5÷12','12+5','12÷5','12×5'], bonne:'12÷5' },
         ]
       },
-      { num:3, titre:'Comparer deux fractions de même dénominateur', regleHTML:true,
-        regleContenu: 'Quand deux fractions ont le <strong style="color:#d4820a;">même dénominateur</strong>, il suffit de comparer leurs <strong>numérateurs</strong> : la fraction avec le <strong style="color:#d4820a;">plus grand numérateur</strong> est la <strong>plus grande</strong>.',
+      { num:3, titre:'Écrire une fraction à partir d\'un partage', regleHTML:true,
+        regleContenu: 'Quand on partage un tout en parts égales : le <strong style="color:#C28A42;">numérateur</strong> indique <strong>combien de parts on prend</strong>, le <strong style="color:#C28A42;">dénominateur</strong> indique <strong>en combien de parts le tout est partagé</strong>.<br><br>Exemple : <strong>4 parts sur 9</strong> s\'écrit <strong style="color:#C28A42;">4/9</strong>.',
         exercices: [
-          { type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:3,den:7},{num:5,den:7}], bonne:1 },
-          { type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:8,den:11},{num:4,den:11}], bonne:0 },
-          { type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:2,den:9},{num:7,den:9}], bonne:1 },
-          { type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:6,den:13},{num:1,den:13}], bonne:0 },
-          { type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:1,den:8},{num:7,den:8}], bonne:1 },
-        ]
-      },
-      { num:4, titre:'Comparer deux fractions de même numérateur', regleHTML:true,
-        regleContenu: 'Quand deux fractions ont le <strong style="color:#d4820a;">même numérateur</strong>, c\'est le <strong>dénominateur</strong> qui fait la différence : <strong style="color:#d4820a;">plus il est grand</strong>, plus la fraction est <strong>petite</strong>.',
-        exercices: [
-          { type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:3,den:4},{num:3,den:7}], bonne:0 },
-          { type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:5,den:8},{num:5,den:3}], bonne:1 },
-          { type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:2,den:5},{num:2,den:9}], bonne:0 },
-          { type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:4,den:10},{num:4,den:3}], bonne:1 },
-          { type:'comparaison', consigne:'Clique sur la <span class="mot-cle">plus grande</span> fraction', fractions:[{num:1,den:4},{num:1,den:2}], bonne:1 },
-        ]
-      },
-      { num:5, titre:'Le numérateur face au dénominateur', regleHTML:true,
-        regleContenu: `
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            <div style="background:rgba(212,130,10,0.1);border-radius:10px;padding:10px 14px;">
-              <div style="color:#3d2000;font-size:15px;line-height:1.5;">Quand le numérateur est <strong>plus grand</strong> que le dénominateur, alors la fraction est <strong style="color:#d4820a;">supérieure (&gt; 1)</strong></div>
-              <div style="margin-top:6px;display:flex;align-items:center;gap:8px;">
-                <div style="display:inline-flex;flex-direction:column;align-items:center;font-size:16px;font-weight:700;color:#d4820a;"><span>7</span><div style="width:22px;height:2.5px;background:#d4820a;margin:2px 0;border-radius:2px;"></div><span>5</span></div>
-                <span style="color:#3d2000;font-size:14px;">→ 7 &gt; 5 donc <strong style="color:#d4820a;">&gt; 1</strong> ✓</span>
-              </div>
-            </div>
-            <div style="background:rgba(212,130,10,0.1);border-radius:10px;padding:10px 14px;">
-              <div style="color:#3d2000;font-size:15px;line-height:1.5;">Quand le numérateur est <strong>plus petit</strong> que le dénominateur, la fraction est <strong style="color:#d4820a;">inférieure (&lt; 1)</strong></div>
-              <div style="margin-top:6px;display:flex;align-items:center;gap:8px;">
-                <div style="display:inline-flex;flex-direction:column;align-items:center;font-size:16px;font-weight:700;color:#d4820a;"><span>3</span><div style="width:22px;height:2.5px;background:#d4820a;margin:2px 0;border-radius:2px;"></div><span>8</span></div>
-                <span style="color:#3d2000;font-size:14px;">→ 3 &lt; 8 donc <strong style="color:#d4820a;">&lt; 1</strong> ✓</span>
-              </div>
-            </div>
-            <div style="background:rgba(212,130,10,0.1);border-radius:10px;padding:10px 14px;">
-              <div style="color:#3d2000;font-size:15px;line-height:1.5;">Quand le numérateur correspond à la <strong>moitié du dénominateur</strong>, alors la fraction est <strong style="color:#d4820a;">égale à ½</strong></div>
-              <div style="margin-top:6px;display:flex;align-items:center;gap:8px;">
-                <div style="display:inline-flex;flex-direction:column;align-items:center;font-size:16px;font-weight:700;color:#d4820a;"><span>6</span><div style="width:22px;height:2.5px;background:#d4820a;margin:2px 0;border-radius:2px;"></div><span>12</span></div>
-                <span style="color:#3d2000;font-size:14px;">→ 6 = 12 ÷ 2 donc <strong style="color:#d4820a;">= ½</strong> ✓</span>
-              </div>
-            </div>
-          </div>`,
-        exercices: [
-          { type:'choix', consigne:`La fraction ${fi(7,5,true)} est :`, choix:['> 1','< 1','= 1'], bonne:'> 1' },
-          { type:'choix', consigne:`La fraction ${fi(3,8,true)} comparée à ½ :`, choix:['> ½','< ½','= ½'], bonne:'< ½' },
-          { type:'choix', consigne:`La fraction ${fi(4,4,true)} est :`, choix:['> 1','< 1','= 1'], bonne:'= 1' },
-          { type:'choix', consigne:`La fraction ${fi(6,12,true)} comparée à ½ :`, choix:['> ½','< ½','= ½'], bonne:'= ½' },
-          { type:'choix', consigne:`La fraction ${fi(9,7,true)} est :`, choix:['> 1','< 1','= 1'], bonne:'> 1' },
-        ]
-      },
-      { num:6, titre:'Multiplier ou diviser 2 fractions égales', regleHTML:true,
-        regleContenu: `
-          <div style="color:#3d2000;font-size:15px;line-height:1.6;">
-            <div style="margin-bottom:10px;">On peut multiplier <strong>ou</strong> diviser le numérateur <strong>et</strong> le dénominateur par le même nombre sans changer la valeur de la fraction.</div>
-            <div style="background:rgba(212,130,10,0.1);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-              <div style="display:inline-flex;flex-direction:column;align-items:center;font-size:18px;font-weight:700;color:#d4820a;"><span>2</span><div style="width:24px;height:2.5px;background:#d4820a;margin:2px 0;border-radius:2px;"></div><span>3</span></div>
-              <span style="font-size:14px;color:#3d2000;">× 2 sur num. ET dénom. →</span>
-              <div style="display:inline-flex;flex-direction:column;align-items:center;font-size:18px;font-weight:700;color:#d4820a;"><span>4</span><div style="width:24px;height:2.5px;background:#d4820a;margin:2px 0;border-radius:2px;"></div><span>6</span></div>
-              <span style="font-size:14px;color:#3d2000;">→ même valeur ✓</span>
-            </div>
-          </div>`,
-        exercices: [
-          { type:'choix', consigne:`${fi(2,3,true)} = <span class="mot-cle">?</span> / 6`, choix:['4','3','6','8'], bonne:'4' },
-          { type:'choix', consigne:`${fi(3,4,true)} = 9 / <span class="mot-cle">?</span>`, choix:['12','8','16','6'], bonne:'12' },
-          { type:'choix', consigne:`${fi(15,20,true)} = <span class="mot-cle">?</span> / 4`, choix:['3','5','4','2'], bonne:'3' },
-          { type:'choix', consigne:`${fi(4,5,true)} = <span class="mot-cle">?</span> / 10`, choix:['8','6','10','5'], bonne:'8' },
-          { type:'choix', consigne:`${fi(1,2,true)} = <span class="mot-cle">?</span> / 10`, choix:['5','2','10','4'], bonne:'5' },
-        ]
-      },
-      { num:7, titre:'Fraction d\'un nombre', regleHTML:true,
-        regleContenu: 'Pour calculer une fraction d\'un nombre, on remplace le mot <strong style="color:#d4820a;">"de"</strong> par <strong style="color:#d4820a;">×</strong> et on calcule.<br><br>Exemple : <strong>2/5 de 60</strong> = 2/5 × 60 = <strong style="color:#d4820a;">24</strong>',
-        exercices: [
-          { type:'choix', consigne:'En maths, "de" se traduit par :', choix:['× (multiplier)','÷ (diviser)','+ (additionner)','− (soustraire)'], bonne:'× (multiplier)' },
-          { type:'choix', consigne:`${fi(1,2,true)} <span class="mot-cle">de</span> 30 = ?`, choix:['15','60','10','30'], bonne:'15' },
-          { type:'choix', consigne:`${fi(1,4,true)} <span class="mot-cle">de</span> 40 = ?`, choix:['44','160','20','10'], bonne:'10' },
-          { type:'choix', consigne:`${fi(2,5,true)} <span class="mot-cle">de</span> 60 = ?`, choix:['12','150','30','24'], bonne:'24' },
-          { type:'choix', consigne:`${fi(3,4,true)} <span class="mot-cle">de</span> 80 = ?`, choix:['83','240','60','20'], bonne:'60' },
+          { type:'fraction-saisie', consigne:'Écris la fraction qui représente <span class="mot-cle">4 parts sur 9</span>.', rn:4, rd:9 },
+          { type:'fraction-saisie', consigne:'Écris la fraction qui représente <span class="mot-cle">3 parts sur 7</span>.', rn:3, rd:7 },
+          { type:'fraction-saisie', consigne:'Écris la fraction qui représente <span class="mot-cle">5 parts sur 12</span>.', rn:5, rd:12 },
         ]
       },
     ];
 
-    const TOTAL_QUIZ = 6;
-    let qIndex = 0, bloque = false, bonnesRep = 0;
+    const TOTAL_QUIZ = 3;
     let pointIndex = 0, exIndex = 0, bloqueR = false;
     let qFinalIndex = 0, bloqueFinal = false, bonnesRepFinal = 0;
 
@@ -648,36 +1052,9 @@
       }, 500);
     }
 
-    function versIntro() { allerVers('ecran-accueil','ecran-intro'); }
-    function versQuiz()  { allerVers('ecran-intro','ecran-quiz'); setTimeout(() => chargerQuestion(0), 600); }
-
     function commencerFiche() {
-      allerVers('ecran-score','ecran-fiche');
+      allerVers('ecran-accueil','ecran-fiche');
       setTimeout(() => afficherNiveau(POINTS[0].titre, POINTS[0].num, POINTS.length, () => chargerPoint(0)), 700);
-    }
-
-    // ── Quiz initial ─────────────────────────────────────────────
-    function versFin() {
-      const score = Math.round((bonnesRep / QUESTIONS.length) * 100);
-      if (!quizInitialDejaPasse) { sauvegarder('quiz_initial', score, 0); quizInitialDejaPasse = true; }
-      if (score >= 90) {
-        allerVers('ecran-quiz','ecran-valide');
-      } else {
-        document.getElementById('score-texte').innerHTML =
-          'Tu as eu <strong>' + bonnesRep + ' / ' + QUESTIONS.length + ' bonnes réponses</strong>.<br>La fiche va t\'aider à consolider cette notion.';
-        allerVers('ecran-quiz','ecran-score');
-      }
-    }
-
-    function chargerQuestion(i) {
-      bloque = false;
-      const q = QUESTIONS[i];
-      document.getElementById('prog-label').textContent = 'Point ' + q.point + ' / ' + TOTAL_QUIZ;
-      document.getElementById('prog-fill').style.width  = ((q.point-1) / TOTAL_QUIZ * 100) + '%';
-      document.getElementById('consigne').innerHTML     = q.consigne;
-      document.getElementById('feedback').className     = 'feedback';
-      document.getElementById('feedback').innerHTML     = '';
-      afficherZone('zone-question', q, 'repondre', false);
     }
 
     function afficherFeedback(el, correct, q) {
@@ -690,26 +1067,6 @@
         el.className = el.className.replace('remed-feedback','').trim() + (el.id.includes('remed') ? ' remed-feedback' : ' feedback') + ' faux';
       }
       el.style.opacity = '1';
-    }
-
-    function repondre(choix) {
-      if (bloque) return; bloque = true;
-      const q = QUESTIONS[qIndex];
-      const correct = evaluer(q, choix);
-      const fb = document.getElementById('feedback');
-      if (correct) bonnesRep++;
-      afficherFeedback(fb, correct, q);
-      setTimeout(suite, correct ? TOK() : TKO());
-    }
-
-    function suite() {
-      qIndex++;
-      if (qIndex >= QUESTIONS.length) versFin();
-      else {
-        const z = document.getElementById('zone-question');
-        z.style.opacity = '0'; z.style.transition = 'opacity 0.3s';
-        setTimeout(() => { chargerQuestion(qIndex); z.style.opacity = '1'; }, 300);
-      }
     }
 
     // ── Remédiation ──────────────────────────────────────────────
@@ -817,15 +1174,14 @@
     }
 
     function versFinalResultat() {
-      const scoreFinal   = Math.round((bonnesRepFinal / QUESTIONS.length) * 100);
-      const scoreInitial = Math.round((bonnesRep       / QUESTIONS.length) * 100);
+      const scoreFinal = Math.round((bonnesRepFinal / QUESTIONS.length) * 100);
       nbTentativesFinales++;
       const pointsBloquants = Object.keys(pointsRatesFinal).map(p => LABELS_POINTS[p] || 'Point ' + p).join(', ');
 
       if (scoreFinal >= 80) {
         sauvegarder('quiz_final_valide', scoreFinal, nbTentativesFinales);
         document.getElementById('texte-final-ok').innerHTML =
-          'Tu es passé de <strong>' + scoreInitial + '%</strong> à <strong style="color:var(--vert-bord);">' + scoreFinal + '%</strong> de bonnes réponses.<br>C\'est une belle progression ! Ton enseignant a été informé.';
+          'Tu as eu <strong style="color:var(--green-dark);">' + scoreFinal + '%</strong> de bonnes réponses.<br>C\'est une belle réussite ! Ton enseignant a été informé.';
         allerVers('ecran-quiz-final','ecran-final-ok');
       } else if (nbTentativesFinales >= MAX_TENTATIVES) {
         sauvegarder('echec_3_tentatives', scoreFinal, nbTentativesFinales, { prof_email: profEmail, points_bloques: pointsBloquants });
@@ -846,9 +1202,10 @@
     }
 
     function evaluer(q, choix) {
-      if (q.type === 'fraction-clic') return choix === q.cible;
-      if (q.type === 'choix')         return choix === q.bonne;
-      if (q.type === 'comparaison')   return Number(choix) === q.bonne;
+      if (q.type === 'fraction-clic')   return choix === q.cible;
+      if (q.type === 'choix')           return choix === q.bonne;
+      if (q.type === 'comparaison')     return Number(choix) === q.bonne;
+      if (q.type === 'fraction-saisie') return choix && choix.n === q.rn && choix.d === q.rd;
       return false;
     }
 
@@ -861,7 +1218,52 @@
         z.innerHTML = '<div class="choix-wrap">' + q.choix.map(c => { const s = c.replace(/\\/g,'\\\\').replace(/'/g,"\\'"); return `<button class="choix-btn" onclick="${fn}('${s}')">${c}</button>`; }).join('') + '</div>';
       } else if (q.type === 'comparaison') {
         z.innerHTML = '<div class="fractions-comparaison">' + q.fractions.map((f,i) => `<div class="${blocClass}" onclick="${fn}(${i})"><div class="fn">${f.num}</div><div class="fb"></div><div class="fn">${f.den}</div></div>`).join('') + '</div>';
+      } else if (q.type === 'fraction-saisie') {
+        const idSuffix = zoneId; // pour avoir des IDs uniques entre quiz et remed
+        z.innerHTML =
+          '<div class="saisie-wrap">' +
+            '<div class="saisie-frac">' +
+              '<input type="number" class="saisie-input saisie-num" placeholder="?" />' +
+              '<div class="saisie-barre"></div>' +
+              '<input type="number" class="saisie-input saisie-den" placeholder="?" />' +
+            '</div>' +
+            '<button class="saisie-btn" onclick="validerSaisie(\'' + zoneId + '\',\'' + fn + '\')">Valider →</button>' +
+          '</div>';
+        // Focus auto + Enter chain
+        setTimeout(() => {
+          const num = z.querySelector('.saisie-num');
+          const den = z.querySelector('.saisie-den');
+          if (num) {
+            num.focus();
+            num.addEventListener('keydown', ev => {
+              if (ev.key === 'Enter') {
+                ev.preventDefault();
+                if (den && (den.value === '' || den.value === null)) den.focus();
+                else validerSaisie(zoneId, fn);
+              }
+            });
+          }
+          if (den) {
+            den.addEventListener('keydown', ev => {
+              if (ev.key === 'Enter') { ev.preventDefault(); validerSaisie(zoneId, fn); }
+            });
+          }
+        }, 100);
       }
+    }
+
+    // Récupère les valeurs et appelle la fonction de validation correspondante
+    function validerSaisie(zoneId, fn) {
+      const z = document.getElementById(zoneId);
+      const num = z.querySelector('.saisie-num');
+      const den = z.querySelector('.saisie-den');
+      const vn = parseInt(num.value);
+      const vd = parseInt(den.value);
+      if (isNaN(vn)) { num.focus(); return; }
+      if (isNaN(vd)) { den.focus(); return; }
+      // Désactive les inputs avant validation pour éviter double-clic
+      num.disabled = true; den.disabled = true;
+      window[fn]({ n: vn, d: vd });
     }
   </script>
 </body>
